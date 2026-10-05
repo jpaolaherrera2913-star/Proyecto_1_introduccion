@@ -15,9 +15,11 @@ public class VentanaMenu extends javax.swing.JFrame {
     /**
      * Creates new form VentanaMenu
      */
-    public VentanaMenu() {
-        initComponents();
-    }
+   public VentanaMenu() {
+    initComponents();
+    aplicarEstilo();
+    setLocationRelativeTo(null);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -139,6 +141,36 @@ dispose();
     /**
      * @param args the command line arguments
      */
+    private void aplicarEstilo() {
+
+    // Fondo de la ventana
+    getContentPane().setBackground(new java.awt.Color(30, 30, 30));
+
+    // Estilo de los botones
+    java.awt.Color colorBoton = new java.awt.Color(50, 50, 50);
+    java.awt.Color colorTexto = java.awt.Color.WHITE;
+
+    javax.swing.JButton[] botones = {
+        jButton1, jButton2, jButton3,
+        jButton4, jButton5, jButton6, jButton7
+    };
+
+    for (javax.swing.JButton boton : botones) {
+        boton.setBackground(colorBoton);
+        boton.setForeground(colorTexto);
+        boton.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        boton.setFocusPainted(false);
+        boton.setBorderPainted(false);
+        boton.setOpaque(true);
+    }
+
+    // Botón salir
+    jButton7.setBackground(new java.awt.Color(180, 50, 50));
+
+    // Botón cerrar caja
+    jButton6.setBackground(new java.awt.Color(40, 120, 180));
+}
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
