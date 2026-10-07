@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.jennifer_y_madeline.proyecto;
 
 /**
@@ -22,8 +19,54 @@ public class VentanaLogin extends javax.swing.JFrame {
      */
         public VentanaLogin() {
         initComponents();
+        configurarBotonIngresar();
+        final java.awt.Component[] orden = { txtUsuario, txtClave, btnIngresar };
+
+setFocusTraversalPolicy(new java.awt.FocusTraversalPolicy() {
+    @Override
+    public java.awt.Component getComponentAfter(java.awt.Container c, java.awt.Component comp) {
+        for (int i = 0; i < orden.length; i++) {
+            if (orden[i] == comp) return orden[(i + 1) % orden.length];
+        }
+        return orden[0];
+    }
+
+    @Override
+    public java.awt.Component getComponentBefore(java.awt.Container c, java.awt.Component comp) {
+        for (int i = 0; i < orden.length; i++) {
+            if (orden[i] == comp) return orden[(i - 1 + orden.length) % orden.length];
+        }
+        return orden[0];
+    }
+
+    @Override
+    public java.awt.Component getFirstComponent(java.awt.Container c) { return orden[0]; }
+
+    @Override
+    public java.awt.Component getLastComponent(java.awt.Container c) { return orden[orden.length - 1]; }
+
+   @Override
+public java.awt.Component getDefaultComponent(java.awt.Container c) {
+    return getContentPane();   // antes: orden[0]
+}
+});
+getContentPane().setFocusable(true);
+
+addWindowListener(new java.awt.event.WindowAdapter() {
+    @Override
+    public void windowOpened(java.awt.event.WindowEvent e) {
+        getContentPane().requestFocusInWindow();   // el foco empieza en el fondo, no en un campo
+    }
+});
+  
+
+        txtUsuario.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+        javax.swing.BorderFactory.createLineBorder(new java.awt.Color(190, 190, 190), 2),
+        javax.swing.BorderFactory.createEmptyBorder(0, 12, 0, 8)));
+        txtClave.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+        javax.swing.BorderFactory.createLineBorder(new java.awt.Color(190, 190, 190), 2),
+        javax.swing.BorderFactory.createEmptyBorder(0, 12, 0, 8)));
         
-      
         btnOjo.setOpaque(false);
         btnOjo.setContentAreaFilled(false);
         btnOjo.setBorderPainted(false);
@@ -135,7 +178,7 @@ public class VentanaLogin extends javax.swing.JFrame {
         txtUsuario.setText("👤    Nombre de Usuario");
         txtUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(197, 197, 197), 2, true));
         txtUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        txtUsuario.setMargin(null);
+        txtUsuario.setMargin(new java.awt.Insets(0, 20, 0, 0));
         txtUsuario.setMinimumSize(new java.awt.Dimension(129, 19));
         txtUsuario.addActionListener(this::txtUsuarioActionPerformed);
 
@@ -146,6 +189,7 @@ public class VentanaLogin extends javax.swing.JFrame {
         btnIngresar.setBackground(new java.awt.Color(225, 225, 225));
         btnIngresar.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnIngresar.setText("INGRESAR");
+        btnIngresar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnIngresar.addActionListener(this::btnIngresarActionPerformed);
 
         btnOjo.setBackground(new java.awt.Color(0, 0, 0));
@@ -168,6 +212,10 @@ public class VentanaLogin extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -182,13 +230,9 @@ public class VentanaLogin extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnOjo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
+                        .addGap(89, 89, 89)
                         .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(28, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,9 +249,9 @@ public class VentanaLogin extends javax.swing.JFrame {
                 .addComponent(lblIntentos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addGap(28, 28, 28)
                 .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+                .addGap(27, 27, 27))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -314,6 +358,53 @@ public class VentanaLogin extends javax.swing.JFrame {
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 
-  
+private void configurarBotonIngresar() {
+    final java.awt.Color normal = new java.awt.Color(225, 225, 225);
+    final java.awt.Color hover = new java.awt.Color(0, 0, 0);
+    final java.awt.Color presionado = new java.awt.Color(40, 40, 40);
+
+    // Estilo básico: respeta siempre el color de fondo
+    btnIngresar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+    btnIngresar.setOpaque(true);
+    btnIngresar.setContentAreaFilled(true);
+    btnIngresar.setFocusPainted(false);
+    btnIngresar.setBorder(javax.swing.BorderFactory.createLineBorder(
+            new java.awt.Color(190, 190, 190), 1));
+
+    // Estado inicial: gris con letras negras
+    btnIngresar.setBackground(normal);
+    btnIngresar.setForeground(java.awt.Color.BLACK);
+
+    btnIngresar.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseEntered(java.awt.event.MouseEvent e) {
+            btnIngresar.setBackground(hover);
+            btnIngresar.setForeground(java.awt.Color.WHITE);
+        }
+
+        @Override
+        public void mouseExited(java.awt.event.MouseEvent e) {
+            btnIngresar.setBackground(normal);
+            btnIngresar.setForeground(java.awt.Color.BLACK);
+        }
+
+        @Override
+        public void mousePressed(java.awt.event.MouseEvent e) {
+            btnIngresar.setBackground(presionado);
+            btnIngresar.setForeground(java.awt.Color.WHITE);
+        }
+
+        @Override
+        public void mouseReleased(java.awt.event.MouseEvent e) {
+            if (btnIngresar.getMousePosition() != null) {
+                btnIngresar.setBackground(hover);
+                btnIngresar.setForeground(java.awt.Color.WHITE);
+            } else {
+                btnIngresar.setBackground(normal);
+                btnIngresar.setForeground(java.awt.Color.BLACK);
+            }
+        }
+    });
+}
 }
 

@@ -31,10 +31,21 @@ public class Proyecto {
             } else if (opcionElegida == 6) {
                 System.out.println("Cierre de caja - En desarrollo");
             } else {
-                sistemaActivo = false;
-                VentanaMensaje vSalida = new VentanaMensaje("Cerrando el sistema...");
+                // Salir: espera hasta 5 segundos, pero se puede cancelar
+                VentanaMensaje vSalida = new VentanaMensaje("Cerrando el sistema...",true);
                 vSalida.setVisible(true);
-                try { Thread.sleep(1200); } catch (Exception e) {}
+                
+                long fin = System.currentTimeMillis() + 2500;
+                while (vSalida.isVisible() && System.currentTimeMillis() < fin) {
+                    try { Thread.sleep(50); } catch (Exception e) {}
+                }
+                
+                if (vSalida.cancelado) {
+                    sistemaActivo = true;
+                    continue;
+                }
+                
+                sistemaActivo = false;
                 vSalida.dispose();
                 System.exit(0);
             }
@@ -54,7 +65,6 @@ public class Proyecto {
             login.setLocationRelativeTo(null);
             login.setIntentosRestantes(MAX_INTENTOS - intentos);
             
-           
             if (intentos > 0) {
                 login.setMensaje("Datos incorrectos");
             } else {
@@ -63,36 +73,30 @@ public class Proyecto {
             
             login.setVisible(true);
             
-           
             while (login.isVisible()) {
                 try { Thread.sleep(50); } catch (Exception e) {}
             }
-            
             
             if (!login.entro) {
                 return false;
             }
             
-           
             if (login.usuarioIngresado.equals(usuarioCorrecto) &&
                 login.claveIngresada.equals(claveCorrecta)) {
                 
-               
                 VentanaMensaje vBien = new VentanaMensaje("¡Acceso concedido!");
                 vBien.setVisible(true);
-                try { Thread.sleep(1000); } catch (Exception e) {}
+                try { Thread.sleep(2000); } catch (Exception e) {}
                 vBien.dispose();
                 return true;
             }
             
-           
             intentos++;
             
-            
             if (intentos >= MAX_INTENTOS) {
-                VentanaMensaje vAgotado = new VentanaMensaje("Se agotaron los 3 intentos.\nSaliendo...");
+                VentanaMensaje vAgotado = new VentanaMensaje("️Se agotaron los 3 intentos.\n Saliendo del sistema...");
                 vAgotado.setVisible(true);
-                try { Thread.sleep(1500); } catch (Exception e) {}
+                try { Thread.sleep(2000); } catch (Exception e) {}
                 vAgotado.dispose();
                 System.exit(0);
             }
