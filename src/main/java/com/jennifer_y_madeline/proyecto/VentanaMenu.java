@@ -6,19 +6,26 @@ package com.jennifer_y_madeline.proyecto;
 
 /**
  *
- * @author jpaol
+ * @author Magy
  */
 public class VentanaMenu extends javax.swing.JFrame {
-        public int opcion = -1;
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaMenu.class.getName());
 
     /**
      * Creates new form VentanaMenu
      */
-   public VentanaMenu() {
-    initComponents();
-    aplicarEstilo();
-    setLocationRelativeTo(null);
+    public int opcion = 0;
+    public VentanaMenu() {
+        initComponents();
+        setLocationRelativeTo(null);
+    contenedor.setLayout(new java.awt.BorderLayout());
+    }
+    private void mostrarPanel(javax.swing.JPanel panel) {
+    contenedor.removeAll();
+    contenedor.add(panel, java.awt.BorderLayout.CENTER);
+    contenedor.revalidate();
+    contenedor.repaint();
 }
 
     /**
@@ -30,159 +37,181 @@ public class VentanaMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         contenedor = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btnCambiarUsuario = new javax.swing.JButton();
+        btnClientes = new javax.swing.JButton();
+        btnVentas = new javax.swing.JButton();
+        btnConsultas = new javax.swing.JButton();
+        btnEstadisticas = new javax.swing.JButton();
+        btnCierre = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        btnSalir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("1. Iniciar sesión (cambiar usuario)");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        contenedor.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton2.setText("2. Registrar clientes");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
+        javax.swing.GroupLayout contenedorLayout = new javax.swing.GroupLayout(contenedor);
+        contenedor.setLayout(contenedorLayout);
+        contenedorLayout.setHorizontalGroup(
+            contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 374, Short.MAX_VALUE)
+        );
+        contenedorLayout.setVerticalGroup(
+            contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
-        jButton3.setText("3. Registrar ventas ");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
-        jButton4.setText("4. Consultar ventas");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
+        btnCambiarUsuario.setBackground(new java.awt.Color(0, 0, 0));
+        btnCambiarUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        btnCambiarUsuario.setText("Inicio de sesión ");
+        btnCambiarUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnCambiarUsuario.addActionListener(this::btnCambiarUsuarioActionPerformed);
 
-        jButton5.setText("5. Consultar estadísticas");
-        jButton5.addActionListener(this::jButton5ActionPerformed);
+        btnClientes.setBackground(new java.awt.Color(0, 0, 0));
+        btnClientes.setForeground(new java.awt.Color(255, 255, 255));
+        btnClientes.setText("Registrar Clientes");
+        btnClientes.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnClientes.addActionListener(this::btnClientesActionPerformed);
 
-        jButton6.setText("6. Cerrar caja");
-        jButton6.addActionListener(this::jButton6ActionPerformed);
+        btnVentas.setBackground(new java.awt.Color(0, 0, 0));
+        btnVentas.setForeground(new java.awt.Color(255, 255, 255));
+        btnVentas.setText("Registrar Ventas");
+        btnVentas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnVentas.addActionListener(this::btnVentasActionPerformed);
 
-        jButton7.setText("7. Salir");
-        jButton7.addActionListener(this::jButton7ActionPerformed);
+        btnConsultas.setBackground(new java.awt.Color(0, 0, 0));
+        btnConsultas.setForeground(new java.awt.Color(255, 255, 255));
+        btnConsultas.setText("Consultar Ventas");
+        btnConsultas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnConsultas.addActionListener(this::btnConsultasActionPerformed);
 
-        contenedor.setLayout(new java.awt.BorderLayout());
+        btnEstadisticas.setBackground(new java.awt.Color(0, 0, 0));
+        btnEstadisticas.setForeground(new java.awt.Color(255, 255, 255));
+        btnEstadisticas.setText("Consultar Estadisticas");
+        btnEstadisticas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnEstadisticas.addActionListener(this::btnEstadisticasActionPerformed);
+
+        btnCierre.setBackground(new java.awt.Color(0, 0, 0));
+        btnCierre.setForeground(new java.awt.Color(255, 255, 255));
+        btnCierre.setText("Cerrar Caja");
+        btnCierre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnCierre.addActionListener(this::btnCierreActionPerformed);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Menu");
+
+        btnSalir.setBackground(new java.awt.Color(0, 0, 0));
+        btnSalir.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalir.setText("Salir ");
+        btnSalir.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCierre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnEstadisticas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnConsultas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnVentas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCambiarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(14, 14, 14))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 20, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(btnCambiarUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnClientes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnVentas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnConsultas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEstadisticas)
+                .addGap(12, 12, 12)
+                .addComponent(btnCierre)
+                .addGap(12, 12, 12)
+                .addComponent(btnSalir)
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton7)
-                            .addComponent(jButton3)
-                            .addComponent(jButton6)
-                            .addComponent(jButton5)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton4)))))
-                .addGap(18, 18, 18)
-                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(366, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)
-                        .addGap(14, 14, 14)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
-                        .addGap(12, 12, 12)
-                        .addComponent(jButton6)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton7)))
-                .addContainerGap(147, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(contenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-      opcion = 6;
-dispose();
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void btnEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticasActionPerformed
+        mostrarPanel(new PanelEnDesarrollo("Estadisticas"));
+    }//GEN-LAST:event_btnEstadisticasActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        opcion = 1;
-dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnCierreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCierreActionPerformed
+        mostrarPanel(new PanelEnDesarrollo("Cierre de caja"));
+    }//GEN-LAST:event_btnCierreActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      opcion = 2;
-      VentanaRegistroCliente registro = new VentanaRegistroCliente(this);
-      registro.setVisible(true);
-dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultasActionPerformed
+      mostrarPanel(new PanelEnDesarrollo("Consultar Ventas"));   
+    }//GEN-LAST:event_btnConsultasActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       opcion = 3;
-dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        opcion=7;
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       opcion = 4;
-dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnCambiarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarUsuarioActionPerformed
+        opcion=1;
+        dispose();
+    }//GEN-LAST:event_btnCambiarUsuarioActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-       opcion = 5;
-dispose();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+        
+    PanelRegistroClientes registro = new PanelRegistroClientes();
+    mostrarPanel((javax.swing.JPanel) registro.getContentPane());
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-       opcion = 7;
-dispose();
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnClientesActionPerformed
+
+    private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
+        mostrarPanel(new PanelEnDesarrollo("Registrar Ventas"));
+    }//GEN-LAST:event_btnVentasActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    private void aplicarEstilo() {
-
-    // Fondo de la ventana
-    getContentPane().setBackground(new java.awt.Color(30, 30, 30));
-
-    // Estilo de los botones
-    java.awt.Color colorBoton = new java.awt.Color(50, 50, 50);
-    java.awt.Color colorTexto = java.awt.Color.WHITE;
-
-    javax.swing.JButton[] botones = {
-        jButton1, jButton2, jButton3,
-        jButton4, jButton5, jButton6, jButton7
-    };
-
-    for (javax.swing.JButton boton : botones) {
-        boton.setBackground(colorBoton);
-        boton.setForeground(colorTexto);
-        boton.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        boton.setFocusPainted(false);
-        boton.setBorderPainted(false);
-        boton.setOpaque(true);
-    }
-
-    // Botón salir
-    jButton7.setBackground(new java.awt.Color(180, 50, 50));
-
-    // Botón cerrar caja
-    jButton6.setBackground(new java.awt.Color(40, 120, 180));
-}
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -206,13 +235,15 @@ dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCambiarUsuario;
+    private javax.swing.JButton btnCierre;
+    private javax.swing.JButton btnClientes;
+    private javax.swing.JButton btnConsultas;
+    private javax.swing.JButton btnEstadisticas;
+    private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnVentas;
     private javax.swing.JPanel contenedor;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

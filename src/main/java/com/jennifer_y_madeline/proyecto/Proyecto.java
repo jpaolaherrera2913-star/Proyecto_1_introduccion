@@ -1,56 +1,43 @@
 package com.jennifer_y_madeline.proyecto;
 
+import com.jennifer_y_madeline.proyecto.databases.JPAUtil;
+
 public class Proyecto {
     static boolean sistemaActivo = true;
     
-    public static void main(String[] args) {
-        boolean acceso = iniciarSesion();
-        
-        if (!acceso) {
-            return;
+   public static void main(String[] args) {
+    if (!iniciarSesion()) {
+        JPAUtil.cerrar();
+        return;
+    }
+    do {
+        VentanaMenu menu = new VentanaMenu();
+        menu.setVisible(true);
+
+        while (menu.isVisible()) {
+            try { Thread.sleep(50); } catch (Exception e) {}
         }
-        
-        int opcionElegida;
-        do {
-            VentanaMenu menu = new VentanaMenu();
-            menu.setLocationRelativeTo(null);
-            menu.setVisible(true);
-            
-            while (menu.isVisible()) {
+
+        if (menu.opcion == 1) {
+            sistemaActivo = iniciarSesion();
+        } else {
+            VentanaMensaje vSalida = new VentanaMensaje("Cerrando el sistema...", true);
+            vSalida.setVisible(true);
+            long fin = System.currentTimeMillis() + 5000;
+            while (vSalida.isVisible() && System.currentTimeMillis() < fin) {
                 try { Thread.sleep(50); } catch (Exception e) {}
             }
-            
-            opcionElegida = menu.opcion;
-            
-            if (opcionElegida == 1) {
-                sistemaActivo = iniciarSesion();
-            } else if (opcionElegida == 2) {
-                System.out.println("Registrar clientes - En desarrollo");
-            } else if (opcionElegida == 3 || opcionElegida == 4 || opcionElegida == 5) {
-                System.out.println("Módulo disponible en próxima entrega");
-            } else if (opcionElegida == 6) {
-                System.out.println("Cierre de caja - En desarrollo");
-            } else {
-                // Salir: espera hasta 5 segundos, pero se puede cancelar
-                VentanaMensaje vSalida = new VentanaMensaje("Cerrando el sistema...",true);
-                vSalida.setVisible(true);
-                
-                long fin = System.currentTimeMillis() + 2500;
-                while (vSalida.isVisible() && System.currentTimeMillis() < fin) {
-                    try { Thread.sleep(50); } catch (Exception e) {}
-                }
-                
-                if (vSalida.cancelado) {
-                    sistemaActivo = true;
-                    continue;
-                }
-                
-                sistemaActivo = false;
-                vSalida.dispose();
-                System.exit(0);
+            if (vSalida.cancelado) {
+                continue;   // vuelve a abrir el menú
             }
-        } while (sistemaActivo);
-    }
+            vSalida.dispose();
+            sistemaActivo = false;
+        }
+    } while (sistemaActivo);
+
+    JPAUtil.cerrar();
+    System.exit(0);
+}
 
     static boolean iniciarSesion() {
         final String usuarioCorrecto = "admin";

@@ -47,4 +47,5 @@ desktop.ini
 hs_err_pid*
 
 # NetBeans user-specific files
-nbproject/private/
+nbproject/private/ 
+/nbproject/
