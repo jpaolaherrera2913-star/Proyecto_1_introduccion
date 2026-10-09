@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.jennifer_y_madeline.proyecto;
 
 /**
  *
  * @author Magy
  */
+import java.awt.Color;
 public class VentanaMenu extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaMenu.class.getName());
@@ -20,13 +18,54 @@ public class VentanaMenu extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
     contenedor.setLayout(new java.awt.BorderLayout());
+            // === FONDO BLANCO DE TODO ===
+        getContentPane().setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setOpaque(true);
+        contenedor.setBackground(new java.awt.Color(255, 255, 255));
+        contenedor.setOpaque(true);
+        
+        // === BOTONES BLANCOS ===
+        Color blanco = new Color(255, 255, 255);
+        Color negro = new Color(0, 0, 0);
+        
+        btnCambiarUsuario.setBackground(blanco);
+        btnCambiarUsuario.setOpaque(true);
+        btnCambiarUsuario.setForeground(negro);
+        
+        btnClientes.setBackground(blanco);
+        btnClientes.setOpaque(true);
+        btnClientes.setForeground(negro);
+        
+        btnVentas.setBackground(blanco);
+        btnVentas.setOpaque(true);
+        btnVentas.setForeground(negro);
+        
+        btnConsultas.setBackground(blanco);
+        btnConsultas.setOpaque(true);
+        btnConsultas.setForeground(negro);
+        
+        btnEstadisticas.setBackground(blanco);
+        btnEstadisticas.setOpaque(true);
+        btnEstadisticas.setForeground(negro);
+        
+        btnCierre.setBackground(blanco);
+        btnCierre.setOpaque(true);
+        btnCierre.setForeground(negro);
+        
+        // === BOTÓN SALIR: se queda negro con letras blancas (como estaba) ===
+        btnSalir.setBackground(negro);
+        btnSalir.setOpaque(true);
+        btnSalir.setForeground(blanco);
     }
     private void mostrarPanel(javax.swing.JPanel panel) {
     contenedor.removeAll();
     contenedor.add(panel, java.awt.BorderLayout.CENTER);
     contenedor.revalidate();
     contenedor.repaint();
+    
 }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,6 +88,7 @@ public class VentanaMenu extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menu");
 
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -56,59 +96,57 @@ public class VentanaMenu extends javax.swing.JFrame {
         contenedor.setLayout(contenedorLayout);
         contenedorLayout.setHorizontalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 374, Short.MAX_VALUE)
+            .addGap(0, 792, Short.MAX_VALUE)
         );
         contenedorLayout.setVerticalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
 
-        btnCambiarUsuario.setBackground(new java.awt.Color(0, 0, 0));
-        btnCambiarUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        btnCambiarUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCambiarUsuario.setText("Inicio de sesión ");
-        btnCambiarUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnCambiarUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         btnCambiarUsuario.addActionListener(this::btnCambiarUsuarioActionPerformed);
 
-        btnClientes.setBackground(new java.awt.Color(0, 0, 0));
-        btnClientes.setForeground(new java.awt.Color(255, 255, 255));
+        btnClientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnClientes.setText("Registrar Clientes");
-        btnClientes.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnClientes.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         btnClientes.addActionListener(this::btnClientesActionPerformed);
 
-        btnVentas.setBackground(new java.awt.Color(0, 0, 0));
-        btnVentas.setForeground(new java.awt.Color(255, 255, 255));
+        btnVentas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnVentas.setText("Registrar Ventas");
-        btnVentas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnVentas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         btnVentas.addActionListener(this::btnVentasActionPerformed);
 
-        btnConsultas.setBackground(new java.awt.Color(0, 0, 0));
-        btnConsultas.setForeground(new java.awt.Color(255, 255, 255));
+        btnConsultas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnConsultas.setText("Consultar Ventas");
-        btnConsultas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnConsultas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         btnConsultas.addActionListener(this::btnConsultasActionPerformed);
 
-        btnEstadisticas.setBackground(new java.awt.Color(0, 0, 0));
-        btnEstadisticas.setForeground(new java.awt.Color(255, 255, 255));
+        btnEstadisticas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEstadisticas.setText("Consultar Estadisticas");
-        btnEstadisticas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnEstadisticas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         btnEstadisticas.addActionListener(this::btnEstadisticasActionPerformed);
 
-        btnCierre.setBackground(new java.awt.Color(0, 0, 0));
-        btnCierre.setForeground(new java.awt.Color(255, 255, 255));
+        btnCierre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCierre.setText("Cerrar Caja");
-        btnCierre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnCierre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         btnCierre.addActionListener(this::btnCierreActionPerformed);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Menu");
+        jLabel1.setText("Menú");
 
         btnSalir.setBackground(new java.awt.Color(0, 0, 0));
+        btnSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setText("Salir ");
         btnSalir.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnSalir.setMaximumSize(new java.awt.Dimension(72, 24));
+        btnSalir.setMinimumSize(new java.awt.Dimension(72, 24));
+        btnSalir.setPreferredSize(new java.awt.Dimension(72, 24));
         btnSalir.addActionListener(this::btnSalirActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -118,44 +156,39 @@ public class VentanaMenu extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCierre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnEstadisticas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnConsultas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnVentas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCambiarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(14, 14, 14))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCierre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEstadisticas, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                    .addComponent(btnVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnConsultas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCambiarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnClientes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addGap(44, 44, 44))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(btnCambiarUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnClientes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnVentas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnConsultas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnEstadisticas)
-                .addGap(12, 12, 12)
+                .addGap(18, 18, 18)
                 .addComponent(btnCierre)
-                .addGap(12, 12, 12)
-                .addComponent(btnSalir)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -164,8 +197,9 @@ public class VentanaMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,6 +212,7 @@ public class VentanaMenu extends javax.swing.JFrame {
 
     private void btnEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticasActionPerformed
         mostrarPanel(new PanelEnDesarrollo("Estadisticas"));
+        
     }//GEN-LAST:event_btnEstadisticasActionPerformed
 
     private void btnCierreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCierreActionPerformed
@@ -246,4 +281,8 @@ public class VentanaMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
+        // Fondo blanco de toda la ventana
+      
 }
+
+
