@@ -28,7 +28,7 @@ public class Proyecto {
                 try { Thread.sleep(50); } catch (Exception e) {}
             }
             if (vSalida.cancelado) {
-                continue;   // vuelve a abrir el menú
+                continue;  
             }
             vSalida.dispose();
             sistemaActivo = false;
@@ -53,7 +53,7 @@ public class Proyecto {
             login.setIntentosRestantes(MAX_INTENTOS - intentos);
             
             if (intentos > 0) {
-                login.setMensaje("Datos incorrectos");
+                login.setMensaje("Usuario o contraseña incorrecta");
             } else {
                 login.setMensaje("");
             }

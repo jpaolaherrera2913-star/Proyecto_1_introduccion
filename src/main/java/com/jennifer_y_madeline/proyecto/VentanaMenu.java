@@ -53,7 +53,7 @@ public class VentanaMenu extends javax.swing.JFrame {
         btnCierre.setOpaque(true);
         btnCierre.setForeground(negro);
         
-        // === BOTÓN SALIR: se queda negro con letras blancas (como estaba) ===
+ 
         btnSalir.setBackground(negro);
         btnSalir.setOpaque(true);
         btnSalir.setForeground(blanco);
@@ -281,8 +281,6 @@ public class VentanaMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
-        // Fondo blanco de toda la ventana
-      
-}
+    }
 
 

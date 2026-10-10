@@ -55,7 +55,7 @@ getContentPane().setFocusable(true);
 addWindowListener(new java.awt.event.WindowAdapter() {
     @Override
     public void windowOpened(java.awt.event.WindowEvent e) {
-        getContentPane().requestFocusInWindow();   // el foco empieza en el fondo, no en un campo
+        getContentPane().requestFocusInWindow();  
     }
 });
   
@@ -141,7 +141,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     }
        public void setIntentosRestantes(int cantidad) {
         if (cantidad > 0) {
-            lblIntentos.setText("Intentos restantes: " + cantidad);
+            lblIntentos.setText("Intentos disponibles: " + cantidad);
         } else {
             lblIntentos.setText("");
         }
@@ -306,17 +306,9 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private void btnOjoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOjoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnOjoActionPerformed
-
-   
-
- 
-    
-    
     /**
      * @param args the command line arguments
-     */
-    
-      
+     */    
   /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -363,7 +355,6 @@ private void configurarBotonIngresar() {
     final java.awt.Color hover = new java.awt.Color(0, 0, 0);
     final java.awt.Color presionado = new java.awt.Color(40, 40, 40);
 
-    // Estilo básico: respeta siempre el color de fondo
     btnIngresar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     btnIngresar.setOpaque(true);
     btnIngresar.setContentAreaFilled(true);
@@ -371,7 +362,6 @@ private void configurarBotonIngresar() {
     btnIngresar.setBorder(javax.swing.BorderFactory.createLineBorder(
             new java.awt.Color(190, 190, 190), 1));
 
-    // Estado inicial: gris con letras negras
     btnIngresar.setBackground(normal);
     btnIngresar.setForeground(java.awt.Color.BLACK);
 

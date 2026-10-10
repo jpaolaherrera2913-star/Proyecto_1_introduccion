@@ -1,4 +1,3 @@
-
 package com.jennifer_y_madeline.proyecto;
 import com.jennifer_y_madeline.proyecto.databases.Cliente;
 import com.jennifer_y_madeline.proyecto.databases.ClienteDAO;
@@ -19,16 +18,13 @@ public class PanelRegistroClientes extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PanelRegistroClientes.class.getName());
 
-    /**
-     * Creates new form PanelRegistroClientes
-     */
     public PanelRegistroClientes() {
         initComponents();
         cargarCombos();
          configurarValidacionEnVivo();
          configurarTabla();   
         cargarClientes();
-        configurarBotonGuardar();    // ✅ Nuevo
+        configurarBotonGuardar();    
     configurarBotonCancelar();   
          txtNombre1.setBorder(javax.swing.BorderFactory.createCompoundBorder(
             javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 197, 197), 2),
@@ -48,7 +44,7 @@ public class PanelRegistroClientes extends javax.swing.JFrame {
     
 
   private final String[] TIPOS_VALIDOS = {
-    "cliente regular", "cliente frecuente", "cliente coorporativo"
+    "cliente regular", "cliente frecuente", "cliente corporativo"
 };
 private List<TipoCliente> tipos = new ArrayList<>();
 
@@ -78,7 +74,6 @@ private void cargarCombos() {
     }.execute();
 }
 
-/** Mensajes "Edad válida" / "Cliente válido" mientras se escribe. */
 private void configurarValidacionEnVivo() {
     javax.swing.event.DocumentListener dl = new javax.swing.event.DocumentListener() {
         @Override
@@ -99,11 +94,9 @@ private void revisarCampos() {
     String edad = txtEdad.getText().trim();
     String tipo = txtTipo.getText().trim();
     
-    // === IGNORAR TEXTOS DE AYUDA ===
     boolean esTextoAyudaEdad = edad.equals("🎂     Edad") || edad.equals("Edad");
     boolean esTextoAyudaTipo = tipo.equals("👥    Tipo de cliente") || tipo.equals("Tipo de cliente");
     
-    // Si es texto de ayuda → NO mostrar nada
     if (esTextoAyudaEdad || edad.isEmpty()) {
         lblEdadMsg.setText("");
     } else if (edadValida(edad)) {
@@ -149,47 +142,34 @@ private TipoCliente buscarTipo(String texto) {
 }
 
 private void guardar() {
-    String nombre = txtNombre1.getText().trim().replaceAll("\\s+", " ");
+   
+    String nombre = txtNombre1.getText().trim();
     String edadTxt = txtEdad.getText().trim();
-    String tipoTxt = txtTipo.getText().trim().replaceAll("\\s+", " ");
-    MetodoPago metodo = (MetodoPago) cboMetodo.getSelectedItem();
- 
-
-
-// Igual que en login: comprobar con y sin espacios
-boolean nombreVacio = nombre.isEmpty() ||
-    nombre.equals("Nombre:") ||
-    nombre.equals("  Nombre:");
-
-boolean edadVacia = edadTxt.isEmpty() ||
-    edadTxt.equals("Edad:") ||
-    edadTxt.equals("  Edad:");
-
-boolean tipoVacio = tipoTxt.isEmpty() ||
-    tipoTxt.equals("Tipo de cliente:") ||
-    tipoTxt.equals("  Tipo de cliente:");
-
-if (nombreVacio) {
-    avisar("Ingrese el nombre del cliente.");
-    txtNombre1.requestFocus();
-    return;
-}
-if (edadVacia) {
-    avisar("Ingrese la edad del cliente.");
-    txtEdad.requestFocus();
-    return;
-}
-if (tipoVacio) {
-    avisar("Escriba el tipo de cliente.");
-    txtTipo.requestFocus();
-    return;
-}
+    String tipoTxt = txtTipo.getText().trim();
     
-    if (nombre.isEmpty()) {
+    nombre = nombre.replaceAll("\\s+", " ");
+    tipoTxt = tipoTxt.replaceAll("\\s+", " ");
+   
+   boolean esTextoAyudaNombre = nombre.isEmpty() || nombre.startsWith("👤");
+boolean esTextoAyudaEdad   = edadTxt.isEmpty() || edadTxt.startsWith("🎂");
+boolean esTextoAyudaTipo   = tipoTxt.isEmpty()  || tipoTxt.startsWith("👥");
+    
+    if (esTextoAyudaNombre) {
         avisar("Ingrese el nombre del cliente.");
         txtNombre1.requestFocus();
         return;
     }
+    if (esTextoAyudaEdad) {
+        avisar("Ingrese la edad del cliente.");
+        txtEdad.requestFocus();
+        return;
+    }
+    if (esTextoAyudaTipo) {
+        avisar("Escriba el tipo de cliente.");
+        txtTipo.requestFocus();
+        return;
+    }
+    
     if (nombre.length() < 2) {
         avisar("El nombre debe tener al menos 2 caracteres.");
         txtNombre1.requestFocus();
@@ -205,55 +185,59 @@ if (tipoVacio) {
         txtNombre1.requestFocus();
         return;
     }
-
-    if (edadTxt.isEmpty()) {
-        avisar("Ingrese la edad del cliente.");
-        txtEdad.requestFocus();
-        return;
-    }
     
-    int edad = Integer.parseInt(edadTxt);
-
-    if (tipoTxt.isEmpty()) {
-        avisar("Escriba el tipo de cliente.");
-        txtTipo.requestFocus();
+    int edad;
+    try {
+        edad = Integer.parseInt(edadTxt);
+        if (edad < 1 || edad > 120) {
+            avisar("La edad debe ser entre 1 y 120.");
+            txtEdad.requestFocus();
+            return;
+        }
+    } catch (NumberFormatException e) {
+        avisar("Escribe un número válido en la edad.");
+        txtEdad.requestFocus();
         return;
     }
     
     TipoCliente tipo = buscarTipo(tipoTxt);
     if (tipo == null) {
-        avisar("Ese tipo de cliente no existe en la base de datos.");
+        avisar("Ese tipo de cliente no existe.\nEscribe: Cliente regular, Frecuente o Corporativo");
         txtTipo.requestFocus();
         return;
     }
-
+    
+    MetodoPago metodo = (MetodoPago) cboMetodo.getSelectedItem();
     if (metodo == null) {
         avisar("Seleccione el método de pago.");
         cboMetodo.requestFocus();
         return;
     }
-
+    
     try {
         dao.guardar(new Cliente(nombre, edad, tipo, metodo));
         JOptionPane.showMessageDialog(this, "Cliente registrado correctamente.",
                 "Registro", JOptionPane.INFORMATION_MESSAGE);
-        limpiar();
+        limpiar(); 
     } catch (Exception ex) {
         mostrarError("No se pudo guardar el cliente", ex);
     }
 }
 
 private void limpiar() {
-    txtNombre1.setText("  Nombre:");
+    
+    txtNombre1.setText("  👤    Nombre");
     txtNombre1.setForeground(new java.awt.Color(150, 150, 150));
     
-    txtEdad.setText("  Edad:");
+    txtEdad.setText("  🎂     Edad");
     txtEdad.setForeground(new java.awt.Color(150, 150, 150));
     
-    txtTipo.setText("  Tipo de cliente:");
-    txtTipo.setForeground(new java.awt.Color(150, 150, 150));
     
+    txtTipo.setText("  👥    Tipo de cliente");
+    txtTipo.setForeground(new java.awt.Color(150, 150, 150));
     cboMetodo.setSelectedIndex(-1);
+    lblEdadMsg.setText("");
+    lblTipoMsg.setText("");
     txtNombre1.requestFocus();
 }
     /**
@@ -358,7 +342,8 @@ private void limpiar() {
         lblTipoMsg.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         lblTipoMsg.setForeground(new java.awt.Color(204, 204, 204));
 
-        jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -479,7 +464,7 @@ private void limpiar() {
     }//GEN-LAST:event_txtTipoActionPerformed
 
     private void actualizarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarNombreActionPerformed
-
+       
     int fila = tblClientes.getSelectedRow();
     if (fila == -1) {
         JOptionPane.showMessageDialog(this, "Selecciona un cliente de la tabla");
@@ -487,8 +472,6 @@ private void limpiar() {
     }
     
     String nombre = modeloTabla.getValueAt(fila, 0).toString();
-    
-    // Buscar el cliente completo
     Cliente seleccionado = null;
     for (Cliente c : dao.listar()) {
         if (c.getNombre().equals(nombre)) {
@@ -501,12 +484,10 @@ private void limpiar() {
         JOptionPane.showMessageDialog(this, "Cliente no encontrado");
         return;
     }
-    
-    // Abrir ventana de edición
+
     VentanaEditarCliente ventana = new VentanaEditarCliente(seleccionado);
     ventana.setVisible(true);
-    
-    // Refrescar tabla al cerrar
+
     ventana.addWindowListener(new java.awt.event.WindowAdapter() {
         @Override
         public void windowClosed(java.awt.event.WindowEvent e) {
@@ -606,7 +587,7 @@ private void configurarTabla() {
             new Object[]{"Nombre", "Edad", "Tipo de cliente", "Método de pago"}, 0) {
         @Override
         public boolean isCellEditable(int fila, int columna) {
-            return false;   // la tabla es solo para ver
+            return false;   
         }
     };
     tblClientes.setModel(modeloTabla);
@@ -623,12 +604,12 @@ private void cargarClientes() {
         @Override
         protected void done() {
             try {
-                modeloTabla.setRowCount(0);   // vacía la tabla antes de llenarla
+                modeloTabla.setRowCount(0);  
                 for (Cliente c : get()) {
                     modeloTabla.addRow(new Object[]{
                         c.getNombre(),
                         c.getEdad(),
-                        c.getTipoCliente().getNombre(),    // el nombre, no el número
+                        c.getTipoCliente().getNombre(),    
                         c.getMetodoPago().getNombre()
                     });
                 }
@@ -639,9 +620,9 @@ private void cargarClientes() {
     }.execute();
 }
 private void configurarBotonGuardar() {
-    final java.awt.Color normal = new java.awt.Color(225,225,225);        // Negro normal
-    final java.awt.Color hover = new java.awt.Color(0,0,0);       // Gris oscuro al pasar
-    final java.awt.Color presionado = new java.awt.Color(40, 40, 40);  // Más oscuro al hacer clic
+    final java.awt.Color normal = new java.awt.Color(225,225,225);  
+    final java.awt.Color hover = new java.awt.Color(0,0,0);    
+    final java.awt.Color presionado = new java.awt.Color(40, 40, 40);
 
     btnGuardar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     btnGuardar.setOpaque(true);
@@ -651,7 +632,7 @@ private void configurarBotonGuardar() {
             new java.awt.Color(190, 190, 190), 1));
     
     btnGuardar.setBackground(normal);
-    btnGuardar.setForeground(java.awt.Color.BLACK); // Letras blancas por defecto
+    btnGuardar.setForeground(java.awt.Color.BLACK); 
 
     btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
@@ -683,9 +664,9 @@ private void configurarBotonGuardar() {
 }
 
 private void configurarBotonCancelar() {
-    final java.awt.Color normal = new java.awt.Color(225,225,225);       // Negro normal
-    final java.awt.Color hover = new java.awt.Color(0,0,0);       // Gris oscuro al pasar
-    final java.awt.Color presionado = new java.awt.Color(40, 40, 40);  // Más oscuro al hacer clic
+    final java.awt.Color normal = new java.awt.Color(225,225,225); 
+    final java.awt.Color hover = new java.awt.Color(0,0,0); 
+    final java.awt.Color presionado = new java.awt.Color(40, 40, 40);  
 
     btnCancelar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     btnCancelar.setOpaque(true);
@@ -695,7 +676,7 @@ private void configurarBotonCancelar() {
             new java.awt.Color(190, 190, 190), 1));
     
     btnCancelar.setBackground(normal);
-    btnCancelar.setForeground(java.awt.Color.BLACK); // Letras blancas por defecto
+    btnCancelar.setForeground(java.awt.Color.BLACK); 
 
     btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
@@ -724,8 +705,7 @@ private void configurarBotonCancelar() {
             }
         }
     });
-                    // === NOMBRE — IGUAL A VENTANALOGIN ===
-        txtNombre1.setText("  👤    Nombre");  // ← con espacio al principio
+        txtNombre1.setText("  👤    Nombre");  
         txtNombre1.setForeground(new java.awt.Color(150, 150, 150));
         
         txtNombre1.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -745,8 +725,7 @@ private void configurarBotonCancelar() {
             }
         });
 
-        // === EDAD — IGUAL A VENTANALOGIN ===
-        txtEdad.setText("  🎂     Edad");  // ← con espacio al principio
+        txtEdad.setText("  🎂     Edad");  
         txtEdad.setForeground(new java.awt.Color(150, 150, 150));
         
         txtEdad.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -766,8 +745,7 @@ private void configurarBotonCancelar() {
             }
         });
 
-        // === TIPO DE CLIENTE — IGUAL A VENTANALOGIN ===
-        txtTipo.setText("  👥    Tipo de cliente");  // ← con espacio al principio
+        txtTipo.setText("  👥    Tipo de cliente");  
         txtTipo.setForeground(new java.awt.Color(150, 150, 150));
         
         txtTipo.addFocusListener(new java.awt.event.FocusAdapter() {

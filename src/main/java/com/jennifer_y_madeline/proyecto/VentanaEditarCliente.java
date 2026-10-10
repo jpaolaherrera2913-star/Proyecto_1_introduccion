@@ -1,12 +1,9 @@
 package com.jennifer_y_madeline.proyecto;
-
 import com.jennifer_y_madeline.proyecto.databases.Cliente;
 import com.jennifer_y_madeline.proyecto.databases.ClienteDAO;
 import com.jennifer_y_madeline.proyecto.databases.MetodoPago;
 import com.jennifer_y_madeline.proyecto.databases.TipoCliente;
-import static com.mysql.cj.conf.PropertyKey.logger;
 import javax.swing.*;
-import static org.hibernate.internal.CoreLogging.logger;
 
 public class VentanaEditarCliente extends javax.swing.JFrame {
     
@@ -16,34 +13,26 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
     public VentanaEditarCliente(Cliente cliente) {
         initComponents();
         setLocationRelativeTo(null);
-        
         this.clienteAEditar = cliente;
-        
-        // ✅ Llenar el combo con métodos de pago
         cargarMetodosPago();
-        
-        // ✅ Llenar campos con los datos del cliente
         txtEditarNombre.setText(cliente.getNombre());
         txtEditarEdad.setText(String.valueOf(cliente.getEdad()));
         txtEditarTipo.setText(cliente.getTipoCliente().getNombre());
         cboEditarPago.setSelectedItem(cliente.getMetodoPago());
     }
 
-    private VentanaEditarCliente() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    private void limpiar() {
+    dispose();
+}
     
-    // ✅ Cargar métodos de pago en el combo
+  
     private void cargarMetodosPago() {
         cboEditarPago.removeAllItems();
         for (MetodoPago m : dao.listarMetodos()) {
             cboEditarPago.addItem(m);
         }
     }
-    // === BOTÓN CANCELAR ===
-    // === BOTÓN GUARDAR CAMBIOS ===
-    
-    // Buscar tipo de cliente por nombre
+   
     private TipoCliente buscarTipo(String nombre) {
         for (TipoCliente t : dao.listarTipos()) {
             if (t.getNombre().equalsIgnoreCase(nombre)) {
@@ -65,7 +54,7 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         btnGuardarCambios = new javax.swing.JButton();
         btnCancelarEditar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar Cliente");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -111,7 +100,7 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(txtEditarEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtEditarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -136,7 +125,7 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelarEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -164,18 +153,18 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         Object seleccion = cboEditarPago.getSelectedItem();
         MetodoPago nuevoMetodo = (seleccion instanceof MetodoPago) ? (MetodoPago) seleccion : null;
          
+            if (nuevoNombre.isEmpty() || edadTexto.isEmpty() || nuevoTipoNombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Llena todos los campos");
+            return;
+         }
+
         if (!nuevoNombre.matches("[\\p{L} .'-]+")) {
             JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras y espacios.");
-            txtEditarNombre.requestFocus(); // El cursor vuelve al campo nombre
-            return; // Detiene todo si hay error
-        }
-        // Validar campos vacíos
-        if (nuevoNombre.isEmpty() || edadTexto.isEmpty() || nuevoTipoNombre.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Llena todos los campos");
+            txtEditarNombre.requestFocus(); 
             return;
         }
 
-        // Validar edad
+        
         int nuevaEdad;
         try {
             nuevaEdad = Integer.parseInt(edadTexto);
@@ -188,7 +177,7 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
             return;
         }
 
-        // Validar tipo de cliente
+        
         TipoCliente nuevoTipo = buscarTipo(nuevoTipoNombre);
         if (nuevoTipo == null) {
             JOptionPane.showMessageDialog(this,
@@ -202,11 +191,11 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         }
 
         try {
-            // ✅ Actualizar en la base de datos
+           
             dao.actualizarCompleto(clienteAEditar.getId(), nuevoNombre, nuevaEdad, nuevoTipo, nuevoMetodo);
 
             JOptionPane.showMessageDialog(this, "Cliente actualizado ✅");
-            dispose(); // Cierra la ventana
+            dispose();
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
@@ -217,9 +206,7 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtEditarTipoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -239,7 +226,6 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VentanaEditarCliente().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -252,16 +238,4 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtEditarNombre;
     private javax.swing.JTextField txtEditarTipo;
     // End of variables declaration//GEN-END:variables
-
-    private void guardar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private void cargarClientes() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private void limpiar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
