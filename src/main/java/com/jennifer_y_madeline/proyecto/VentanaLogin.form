@@ -3,7 +3,7 @@
 <Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="Inicio de Sesi&#xf3;n"/>
+    <Property name="title" type="java.lang.String" value="Estrella Peluda - Inicio de Sesi&#xf3;n"/>
     <Property name="locationByPlatform" type="boolean" value="true"/>
   </Properties>
   <AccessibilityProperties>
@@ -28,12 +28,15 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="278" max="32767" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+          <Component id="jPanel1" pref="369" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -41,68 +44,81 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-        </Property>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-            <LineBorder roundedCorners="true" thickness="3"/>
-          </Border>
+          <Color blue="fa" green="fb" red="ff" type="rgb"/>
         </Property>
       </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Component id="jLabel3" min="-2" pref="207" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lblIntentos" alignment="0" min="-2" pref="157" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="lblMensaje" max="32767" attributes="0"/>
-                                  <Component id="txtUsuario" pref="285" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="txtClave" min="-2" pref="246" max="-2" attributes="0"/>
+                              <Component id="txtUsuario" min="-2" pref="250" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="txtClave" min="-2" pref="218" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnOjo" min="-2" pref="28" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
-                          <Component id="btnIngresar" min="-2" pref="154" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="btnIngresar" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                              <Component id="lblMensaje" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                              <Component id="jLabel1" alignment="0" min="-2" pref="236" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="28" max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel2" min="-2" pref="313" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                  <Component id="lblIntentos" min="-2" pref="157" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                          <Component id="jLabel3" min="-2" pref="161" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                  <Component id="txtUsuario" min="-2" pref="45" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="txtUsuario" min="-2" pref="40" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="txtClave" alignment="3" pref="45" max="32767" attributes="0"/>
+                      <Component id="txtClave" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                       <Component id="btnOjo" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="lblMensaje" min="-2" pref="26" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="btnIngresar" min="-2" pref="40" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="lblIntentos" min="-2" pref="33" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblMensaje" min="-2" pref="26" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="btnIngresar" min="-2" pref="50" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -111,21 +127,21 @@
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Franklin Gothic Demi Cond" size="24" style="1"/>
+              <Font name="Arial" size="24" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Registro de Usuario"/>
+            <Property name="text" type="java.lang.String" value="Iniciar sesi&#xf3;n"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtUsuario">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ec" green="ec" red="ec" type="rgb"/>
+              <Color blue="fa" green="fb" red="ff" type="rgb"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="66" green="66" red="66" type="rgb"/>
+              <Color blue="96" green="96" red="96" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="\ud83d\udc64    Nombre de Usuario" containsInvalidXMLChars="true"/>
+            <Property name="text" type="java.lang.String" value="\ud83d\udc3e    Usuario" containsInvalidXMLChars="true"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder roundedCorners="true" thickness="2">
@@ -150,7 +166,7 @@
         <Component class="javax.swing.JPasswordField" name="txtClave">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="e7" green="e7" red="e7" type="rgb"/>
+              <Color blue="fa" green="fb" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="\ud83d\udd12Contrase&#xf1;a" containsInvalidXMLChars="true"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -165,12 +181,15 @@
         <Component class="javax.swing.JButton" name="btnIngresar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="e1" green="e1" red="e1" type="rgb"/>
+              <Color blue="d1" green="96" red="ab" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="16" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="INGRESAR"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>
           <Events>
@@ -182,7 +201,8 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&#x29b8;"/>
+            <Property name="text" type="java.lang.String" value="\ud83d\udc15" containsInvalidXMLChars="true"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
@@ -214,8 +234,28 @@
               <Font name="Segoe UI" size="16" style="2"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="99" green="99" red="99" type="rgb"/>
+              <Color blue="c8" green="78" red="95" type="rgb"/>
             </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="af" green="af" red="af" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Ingresa tu usuario y contrase&#xf1;a"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;"/>
           </Properties>
         </Component>
       </SubComponents>

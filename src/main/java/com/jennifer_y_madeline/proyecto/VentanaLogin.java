@@ -5,6 +5,7 @@ package com.jennifer_y_madeline.proyecto;
  *
  * @author jpaol
  */
+
 public class VentanaLogin extends javax.swing.JFrame {
    public boolean entro = false;
     public String usuarioIngresado = "";
@@ -13,13 +14,14 @@ public class VentanaLogin extends javax.swing.JFrame {
         lblIntentos.setText(texto);
     }
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaLogin.class.getName());
-
+    
     /**
      * Creates new form VentanaLogin
      */
         public VentanaLogin() {
         initComponents();
         configurarBotonIngresar();
+       
         final java.awt.Component[] orden = { txtUsuario, txtClave, btnIngresar };
 
 setFocusTraversalPolicy(new java.awt.FocusTraversalPolicy() {
@@ -79,10 +81,10 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         btnOjo.addActionListener(e -> {
             if (btnOjo.isSelected()) {
                 txtClave.setEchoChar((char)0);
-                btnOjo.setText("👁");
+                btnOjo.setText("🐾");
             } else {
                 txtClave.setEchoChar('•');
-                btnOjo.setText("️⦸");
+                btnOjo.setText("️🐕");
             }
         });
         getContentPane().revalidate();
@@ -90,13 +92,13 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     
         
             
-        txtUsuario.setText("  👤    Nombre de Usuario");
+        txtUsuario.setText("  👤    Usuario");
         txtUsuario.setForeground(new java.awt.Color(150, 150, 150));
         
         txtUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (txtUsuario.getText().equals("  👤    Nombre de Usuario")) {
+                if (txtUsuario.getText().equals("  👤    Usuario")) {
                     txtUsuario.setText("");
                     txtUsuario.setForeground(new java.awt.Color(50, 50, 50));
                 }
@@ -104,7 +106,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (txtUsuario.getText().isEmpty()) {
-                    txtUsuario.setText("  👤    Nombre de Usuario");
+                    txtUsuario.setText("  👤    Usuario");
                     txtUsuario.setForeground(new java.awt.Color(150, 150, 150));
                 }
             }
@@ -161,39 +163,42 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         btnOjo = new javax.swing.JToggleButton();
         lblIntentos = new javax.swing.JLabel();
         lblMensaje = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Inicio de Sesión");
+        setTitle("Estrella Peluda - Inicio de Sesión");
         setLocationByPlatform(true);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        jPanel1.setBackground(new java.awt.Color(255, 251, 250));
 
-        jLabel3.setFont(new java.awt.Font("Franklin Gothic Demi Cond", 1, 24)); // NOI18N
-        jLabel3.setText("Registro de Usuario");
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel3.setText("Iniciar sesión");
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        txtUsuario.setBackground(new java.awt.Color(236, 236, 236));
-        txtUsuario.setForeground(new java.awt.Color(102, 102, 102));
-        txtUsuario.setText("👤    Nombre de Usuario");
+        txtUsuario.setBackground(new java.awt.Color(255, 251, 250));
+        txtUsuario.setForeground(new java.awt.Color(150, 150, 150));
+        txtUsuario.setText("🐾    Usuario");
         txtUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(197, 197, 197), 2, true));
         txtUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtUsuario.setMargin(new java.awt.Insets(0, 20, 0, 0));
         txtUsuario.setMinimumSize(new java.awt.Dimension(129, 19));
         txtUsuario.addActionListener(this::txtUsuarioActionPerformed);
 
-        txtClave.setBackground(new java.awt.Color(231, 231, 231));
+        txtClave.setBackground(new java.awt.Color(255, 251, 250));
         txtClave.setText("🔒Contraseña");
         txtClave.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(197, 197, 197), 2, true));
 
-        btnIngresar.setBackground(new java.awt.Color(225, 225, 225));
+        btnIngresar.setBackground(new java.awt.Color(171, 150, 209));
         btnIngresar.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnIngresar.setText("INGRESAR");
+        btnIngresar.setBorder(null);
         btnIngresar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnIngresar.addActionListener(this::btnIngresarActionPerformed);
 
         btnOjo.setBackground(new java.awt.Color(0, 0, 0));
-        btnOjo.setText("⦸");
+        btnOjo.setText("🐕");
+        btnOjo.setToolTipText("");
         btnOjo.setBorder(null);
         btnOjo.setBorderPainted(false);
         btnOjo.setContentAreaFilled(false);
@@ -206,63 +211,86 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         lblIntentos.setText("Intentos restantes: 3");
 
         lblMensaje.setFont(new java.awt.Font("Segoe UI", 2, 16)); // NOI18N
-        lblMensaje.setForeground(new java.awt.Color(153, 153, 153));
+        lblMensaje.setForeground(new java.awt.Color(149, 120, 200));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(175, 175, 175));
+        jLabel1.setText("Ingresa tu usuario y contraseña");
+
+        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("────────────────────────────────────────");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnOjo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblIntentos, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(lblMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnOjo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(29, 29, 29)
+                                .addComponent(lblIntentos, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(22, 22, 22)
                 .addComponent(jLabel3)
-                .addGap(44, 44, 44)
-                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtClave, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnOjo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblIntentos, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+                .addGap(104, 104, 104))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 278, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -277,8 +305,8 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         
        
         boolean usuarioVacio = usu.isEmpty() ||
-            usu.equals("  👤    Nombre de Usuario") ||
-            usu.equals("👤    Nombre de Usuario");
+            usu.equals("  👤    Usuario") ||
+            usu.equals("👤    Usuario");
         
         boolean claveVacia = cla.isEmpty() ||
             cla.equals("  🔒    Contraseña") ||
@@ -334,14 +362,17 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         }
         //</editor-fold>
 
-        /* Create and display the form */
+       
         java.awt.EventQueue.invokeLater(() -> new VentanaLogin().setVisible(true));
         
     }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
     private javax.swing.JToggleButton btnOjo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblIntentos;
@@ -350,15 +381,17 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 
+
 private void configurarBotonIngresar() {
-    final java.awt.Color normal = new java.awt.Color(225, 225, 225);
-    final java.awt.Color hover = new java.awt.Color(0, 0, 0);
-    final java.awt.Color presionado = new java.awt.Color(40, 40, 40);
+    final java.awt.Color normal = new java.awt.Color(171,150,209);
+    final java.awt.Color hover = new java.awt.Color(120, 75, 165);  
+    final java.awt.Color presionado = new java.awt.Color(55,38,88);
 
     btnIngresar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     btnIngresar.setOpaque(true);
     btnIngresar.setContentAreaFilled(true);
     btnIngresar.setFocusPainted(false);
+
     btnIngresar.setBorder(javax.swing.BorderFactory.createLineBorder(
             new java.awt.Color(190, 190, 190), 1));
 
@@ -366,6 +399,7 @@ private void configurarBotonIngresar() {
     btnIngresar.setForeground(java.awt.Color.BLACK);
 
     btnIngresar.addMouseListener(new java.awt.event.MouseAdapter() {
+
         @Override
         public void mouseEntered(java.awt.event.MouseEvent e) {
             btnIngresar.setBackground(hover);
@@ -396,5 +430,7 @@ private void configurarBotonIngresar() {
         }
     });
 }
+
+
 }
 

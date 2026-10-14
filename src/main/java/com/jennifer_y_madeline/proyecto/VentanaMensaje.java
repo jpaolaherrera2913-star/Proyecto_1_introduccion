@@ -45,15 +45,18 @@ public VentanaMensaje(String mensaje, boolean conCancelar) {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Mensaje del sistema");
+        setTitle("Estrella Peluda - Mensaje del sistema");
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(248, 246, 252));
 
         lblMensaje.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblMensaje.setForeground(new java.awt.Color(79, 57, 122));
         lblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        btnCancelar.setBackground(new java.awt.Color(253, 252, 253));
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -61,22 +64,22 @@ public VentanaMensaje(String mensaje, boolean conCancelar) {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(310, Short.MAX_VALUE)
-                .addComponent(btnCancelar)
-                .addGap(17, 17, 17))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addComponent(lblMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
+                .addComponent(lblMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
                 .addGap(29, 29, 29)
-                .addComponent(btnCancelar)
-                .addGap(18, 18, 18))
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

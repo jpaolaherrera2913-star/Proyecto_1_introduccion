@@ -1,71 +1,95 @@
 
 package com.jennifer_y_madeline.proyecto;
-
 /**
  *
  * @author Magy
  */
-import java.awt.Color;
+import javax.swing.*;
 public class VentanaMenu extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaMenu.class.getName());
-
-    /**
-     * Creates new form VentanaMenu
-     */
+    private javax.swing.JButton botonActivo;
+    private PanelInicio panelInicio;
+    private PanelRegistroClientes panelClientes; // Guardamos la referencia
     public int opcion = 0;
-    public VentanaMenu() {
+
+public VentanaMenu() {
         initComponents();
         setLocationRelativeTo(null);
-    contenedor.setLayout(new java.awt.BorderLayout());
-            // === FONDO BLANCO DE TODO ===
-        getContentPane().setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setOpaque(true);
-        contenedor.setBackground(new java.awt.Color(255, 255, 255));
-        contenedor.setOpaque(true);
+        contenedor.setLayout(new java.awt.BorderLayout());
         
-        // === BOTONES BLANCOS ===
-        Color blanco = new Color(255, 255, 255);
-        Color negro = new Color(0, 0, 0);
+        // Inicializar botones
+        for (javax.swing.JButton b : new javax.swing.JButton[]{
+                btnCambiarUsuario, btnClientes, btnVentas, btnConsultas,
+                btnEstadisticas, btnCierre, btnSalir}) {
+            configurarBotonMenu(b);
+        }
+         marcarComoActivo(btnCambiarUsuario);
         
-        btnCambiarUsuario.setBackground(blanco);
-        btnCambiarUsuario.setOpaque(true);
-        btnCambiarUsuario.setForeground(negro);
-        
-        btnClientes.setBackground(blanco);
-        btnClientes.setOpaque(true);
-        btnClientes.setForeground(negro);
-        
-        btnVentas.setBackground(blanco);
-        btnVentas.setOpaque(true);
-        btnVentas.setForeground(negro);
-        
-        btnConsultas.setBackground(blanco);
-        btnConsultas.setOpaque(true);
-        btnConsultas.setForeground(negro);
-        
-        btnEstadisticas.setBackground(blanco);
-        btnEstadisticas.setOpaque(true);
-        btnEstadisticas.setForeground(negro);
-        
-        btnCierre.setBackground(blanco);
-        btnCierre.setOpaque(true);
-        btnCierre.setForeground(negro);
-        
- 
-        btnSalir.setBackground(negro);
-        btnSalir.setOpaque(true);
-        btnSalir.setForeground(blanco);
+        // ✅ Mostrar Inicio al abrir la ventana
+        panelInicio = new PanelInicio();
+        mostrarPanel(panelInicio);
     }
+
     private void mostrarPanel(javax.swing.JPanel panel) {
-    contenedor.removeAll();
-    contenedor.add(panel, java.awt.BorderLayout.CENTER);
-    contenedor.revalidate();
-    contenedor.repaint();
-    
-}
-    
+        contenedor.removeAll();
+        contenedor.add(panel, java.awt.BorderLayout.CENTER);
+        contenedor.revalidate();
+        contenedor.repaint();
+    }
+        private static final java.awt.Color MENU_FONDO = new java.awt.Color(55, 38, 88);
+    private static final java.awt.Color MENU_HOVER = new java.awt.Color(116, 96, 153);
+    private static final java.awt.Color MENU_PRESIONADO = new java.awt.Color(90, 72, 128);
+
+private void configurarBotonMenu(final javax.swing.JButton btn) {
+        btn.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btn.setOpaque(true);
+        btn.setContentAreaFilled(true);
+        btn.setFocusPainted(false);
+        pintarBotonMenu(btn, MENU_FONDO);
+        
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                pintarBotonMenu(btn, MENU_HOVER);
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                if (btn == botonActivo) {
+                    pintarBotonMenu(btn, MENU_HOVER);
+                } else {
+                    pintarBotonMenu(btn, MENU_FONDO);
+                }
+            }
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                pintarBotonMenu(btn, MENU_PRESIONADO);
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                if (btn == botonActivo || btn.getMousePosition() != null) {
+                    pintarBotonMenu(btn, MENU_HOVER);
+                } else {
+                    pintarBotonMenu(btn, MENU_FONDO);
+                }
+            }
+        });
+    }
+
+   private void pintarBotonMenu(javax.swing.JButton btn, java.awt.Color color) {
+        btn.setBackground(color);
+        btn.setForeground(java.awt.Color.WHITE);
+        btn.setBorder(new javax.swing.border.LineBorder(color, 4, true));
+    }
+ 
+    private void marcarComoActivo(javax.swing.JButton btn) {
+        if (botonActivo == btn) return;
+        if (botonActivo != null) {
+            pintarBotonMenu(botonActivo, MENU_FONDO);
+        }
+        botonActivo = btn;
+        pintarBotonMenu(botonActivo, MENU_HOVER);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -88,7 +112,7 @@ public class VentanaMenu extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Menu");
+        setTitle("Estrella Peluda");
 
         contenedor.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -96,54 +120,74 @@ public class VentanaMenu extends javax.swing.JFrame {
         contenedor.setLayout(contenedorLayout);
         contenedorLayout.setHorizontalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 792, Short.MAX_VALUE)
+            .addGap(0, 799, Short.MAX_VALUE)
         );
         contenedorLayout.setVerticalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 604, Short.MAX_VALUE)
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        jPanel2.setBackground(new java.awt.Color(55, 38, 88));
 
-        btnCambiarUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnCambiarUsuario.setText("Inicio de sesión ");
-        btnCambiarUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        btnCambiarUsuario.setBackground(new java.awt.Color(116, 96, 153));
+        btnCambiarUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        btnCambiarUsuario.setText("  🏠  Inicio");
+        btnCambiarUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 4, true));
+        btnCambiarUsuario.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnCambiarUsuario.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCambiarUsuario.setIconTextGap(10);
         btnCambiarUsuario.addActionListener(this::btnCambiarUsuarioActionPerformed);
 
-        btnClientes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnClientes.setText("Registrar Clientes");
-        btnClientes.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnClientes.setBackground(new java.awt.Color(116, 96, 153));
+        btnClientes.setForeground(new java.awt.Color(255, 255, 255));
+        btnClientes.setText("  👤  Registrar Clientes");
+        btnClientes.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 4, true));
+        btnClientes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnClientes.setIconTextGap(10);
         btnClientes.addActionListener(this::btnClientesActionPerformed);
 
-        btnVentas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnVentas.setText("Registrar Ventas");
-        btnVentas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnVentas.setBackground(new java.awt.Color(116, 96, 153));
+        btnVentas.setForeground(new java.awt.Color(255, 255, 255));
+        btnVentas.setText("  💵  Registrar Ventas");
+        btnVentas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 4, true));
+        btnVentas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnVentas.setIconTextGap(10);
         btnVentas.addActionListener(this::btnVentasActionPerformed);
 
-        btnConsultas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnConsultas.setText("Consultar Ventas");
-        btnConsultas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnConsultas.setBackground(new java.awt.Color(116, 96, 153));
+        btnConsultas.setForeground(new java.awt.Color(255, 255, 255));
+        btnConsultas.setText("  🔍  Consultar Ventas");
+        btnConsultas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 4, true));
+        btnConsultas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnConsultas.setIconTextGap(10);
         btnConsultas.addActionListener(this::btnConsultasActionPerformed);
 
-        btnEstadisticas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnEstadisticas.setText("Consultar Estadisticas");
-        btnEstadisticas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnEstadisticas.setBackground(new java.awt.Color(116, 96, 153));
+        btnEstadisticas.setForeground(new java.awt.Color(255, 255, 255));
+        btnEstadisticas.setText("  📊  Consultar Estadísticas");
+        btnEstadisticas.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 4, true));
+        btnEstadisticas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnEstadisticas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEstadisticas.setIconTextGap(10);
         btnEstadisticas.addActionListener(this::btnEstadisticasActionPerformed);
 
-        btnCierre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnCierre.setText("Cerrar Caja");
-        btnCierre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        btnCierre.setBackground(new java.awt.Color(116, 96, 153));
+        btnCierre.setForeground(new java.awt.Color(255, 255, 255));
+        btnCierre.setText("  🔒  Cerrar Caja");
+        btnCierre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 4, true));
+        btnCierre.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnCierre.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCierre.addActionListener(this::btnCierreActionPerformed);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Menú");
 
-        btnSalir.setBackground(new java.awt.Color(0, 0, 0));
-        btnSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSalir.setBackground(new java.awt.Color(116, 96, 153));
         btnSalir.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalir.setText("Salir ");
-        btnSalir.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        btnSalir.setText("  ↩️  Salir ");
+        btnSalir.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 4, true));
+        btnSalir.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnSalir.setMaximumSize(new java.awt.Dimension(72, 24));
         btnSalir.setMinimumSize(new java.awt.Dimension(72, 24));
         btnSalir.setPreferredSize(new java.awt.Dimension(72, 24));
@@ -154,41 +198,42 @@ public class VentanaMenu extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCierre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEstadisticas, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                    .addComponent(btnVentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCierre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnConsultas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCambiarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnClientes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(btnVentas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnClientes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCambiarUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(86, Short.MAX_VALUE))
+                    .addComponent(btnEstadisticas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(btnCambiarUsuario)
-                .addGap(18, 18, 18)
-                .addComponent(btnClientes)
-                .addGap(18, 18, 18)
-                .addComponent(btnVentas)
-                .addGap(18, 18, 18)
-                .addComponent(btnConsultas)
-                .addGap(18, 18, 18)
-                .addComponent(btnEstadisticas)
-                .addGap(18, 18, 18)
-                .addComponent(btnCierre)
-                .addGap(18, 18, 18)
-                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
+                .addGap(30, 30, 30)
+                .addComponent(btnCambiarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnConsultas, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEstadisticas, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCierre, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -204,23 +249,25 @@ public class VentanaMenu extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(contenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticasActionPerformed
+         marcarComoActivo(btnEstadisticas);
         mostrarPanel(new PanelEnDesarrollo("Estadisticas"));
-        
     }//GEN-LAST:event_btnEstadisticasActionPerformed
 
     private void btnCierreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCierreActionPerformed
+        marcarComoActivo(btnCierre);
         mostrarPanel(new PanelEnDesarrollo("Cierre de caja"));
     }//GEN-LAST:event_btnCierreActionPerformed
 
     private void btnConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultasActionPerformed
-      mostrarPanel(new PanelEnDesarrollo("Consultar Ventas"));   
+      marcarComoActivo(btnConsultas);
+        mostrarPanel(new PanelEnDesarrollo("Consultar Ventas"));
     }//GEN-LAST:event_btnConsultasActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -229,19 +276,32 @@ public class VentanaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnCambiarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarUsuarioActionPerformed
-        opcion=1;
-        dispose();
+         marcarComoActivo(btnCambiarUsuario);
+        
+        if (panelInicio == null) {
+            panelInicio = new PanelInicio();
+        }
+        mostrarPanel(panelInicio);
+        
+        // ✅ Si ya se visitó Clientes, actualizar el número
+        if (panelClientes != null) {
+            panelInicio.actualizarClientes(panelClientes.getTotalClientes());
+        }
     }//GEN-LAST:event_btnCambiarUsuarioActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        
-    PanelRegistroClientes registro = new PanelRegistroClientes();
-    mostrarPanel((javax.swing.JPanel) registro.getContentPane());
+            marcarComoActivo(btnClientes);
+        // ✅ Solo creamos UNA instancia
+        panelClientes = new PanelRegistroClientes();
+        mostrarPanel((javax.swing.JPanel) panelClientes.getContentPane());
+
 
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
+          marcarComoActivo(btnVentas);
         mostrarPanel(new PanelEnDesarrollo("Registrar Ventas"));
+        mostrarPanel(new PanelRegistroVentas());
     }//GEN-LAST:event_btnVentasActionPerformed
 
     /**
