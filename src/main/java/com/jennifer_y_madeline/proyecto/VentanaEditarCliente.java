@@ -1,7 +1,6 @@
 package com.jennifer_y_madeline.proyecto;
 import com.jennifer_y_madeline.proyecto.databases.Cliente;
 import com.jennifer_y_madeline.proyecto.databases.ClienteDAO;
-import com.jennifer_y_madeline.proyecto.databases.MetodoPago;
 import com.jennifer_y_madeline.proyecto.databases.TipoCliente;
 import javax.swing.*;
 
@@ -13,13 +12,12 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
     public VentanaEditarCliente(Cliente cliente) {
    
         initComponents();
+        jLabel11.setVisible(false);
         setLocationRelativeTo(null);
         this.clienteAEditar = cliente;
-        cargarMetodosPago();
         txtEditarNombre.setText(cliente.getNombre());
-        txtEditarEdad.setText(String.valueOf(cliente.getEdad()));
+        txtEditarEdad.setText(cliente.getEdad() == null ? "" : String.valueOf(cliente.getEdad()));
         txtEditarTipo.setText(cliente.getTipoCliente().getNombre());
-        cboEditarPago.setSelectedItem(cliente.getMetodoPago());
     }
 
     private void limpiar() {
@@ -27,13 +25,6 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
 }
     
   
-    private void cargarMetodosPago() {
-        cboEditarPago.removeAllItems();
-        for (MetodoPago m : dao.listarMetodos()) {
-            cboEditarPago.addItem(m);
-        }
-    }
-   
     private TipoCliente buscarTipo(String nombre) {
         for (TipoCliente t : dao.listarTipos()) {
             if (t.getNombre().equalsIgnoreCase(nombre)) {
@@ -50,7 +41,6 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         txtEditarNombre = new javax.swing.JTextField();
         txtEditarEdad = new javax.swing.JTextField();
         txtEditarTipo = new javax.swing.JTextField();
-        cboEditarPago = new javax.swing.JComboBox<>();
         btnGuardarCambios = new javax.swing.JButton();
         btnCancelarEditar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -60,8 +50,6 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        lblPago1 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Estrella Peluda - Editar Cliente");
@@ -82,7 +70,6 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         txtEditarTipo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
         txtEditarTipo.addActionListener(this::txtEditarTipoActionPerformed);
 
-        cboEditarPago.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
 
         btnGuardarCambios.setBackground(new java.awt.Color(79, 57, 122));
         btnGuardarCambios.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -121,12 +108,7 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         jLabel9.setText("*");
         jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
-        lblPago1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblPago1.setText("Método de pago");
 
-        jLabel15.setForeground(new java.awt.Color(252, 0, 0));
-        jLabel15.setText("*");
-        jLabel15.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,14 +142,10 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
                                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(lblPago1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(txtEditarNombre)
                                 .addComponent(txtEditarEdad)
                                 .addComponent(txtEditarTipo)
-                                .addComponent(cboEditarPago, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                ))))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -194,11 +172,7 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEditarTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPago1)
-                    .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboEditarPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarCambios, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,13 +202,16 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         String nuevoNombre = txtEditarNombre.getText().trim();
         String edadTexto = txtEditarEdad.getText().trim();
         String nuevoTipoNombre = txtEditarTipo.getText().trim();
-        Object seleccion = cboEditarPago.getSelectedItem();
-        MetodoPago nuevoMetodo = (seleccion instanceof MetodoPago) ? (MetodoPago) seleccion : null;
          
-            if (nuevoNombre.isEmpty() || edadTexto.isEmpty() || nuevoTipoNombre.isEmpty()) {
+            if (nuevoNombre.isEmpty() || nuevoTipoNombre.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Llena todos los campos");
             return;
          }
+
+        if (nuevoNombre.length() > 100) {
+            JOptionPane.showMessageDialog(this, "El nombre no puede pasar de 100 caracteres.");
+            return;
+        }
 
         if (!nuevoNombre.matches("[\\p{L} .'-]+")) {
             JOptionPane.showMessageDialog(this, "El nombre solo puede contener letras y espacios.");
@@ -243,11 +220,11 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         }
 
         
-        int nuevaEdad;
+        Integer nuevaEdad;
         try {
-            nuevaEdad = Integer.parseInt(edadTexto);
-            if (nuevaEdad < 1 || nuevaEdad > 120) {
-                JOptionPane.showMessageDialog(this, "Edad debe ser entre 1 y 120");
+            nuevaEdad = edadTexto.isEmpty() ? null : Integer.valueOf(edadTexto);
+            if (nuevaEdad != null && (nuevaEdad < 0 || nuevaEdad > 255)) {
+                JOptionPane.showMessageDialog(this, "Edad debe ser entre 0 y 255");
                 return;
             }
         } catch (NumberFormatException e) {
@@ -259,18 +236,13 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
         TipoCliente nuevoTipo = buscarTipo(nuevoTipoNombre);
         if (nuevoTipo == null) {
             JOptionPane.showMessageDialog(this,
-                "Tipo inválido. Usa: Cliente Regular, Cliente Frecuente o Cliente Corporativo");
-            return;
-        }
-
-        if (nuevoMetodo == null) {
-            JOptionPane.showMessageDialog(this, "Selecciona método de pago");
+                "Escriba un tipo de cliente del cat\u00e1logo.");
             return;
         }
 
         try {
            
-            dao.actualizarCompleto(clienteAEditar.getId(), nuevoNombre, nuevaEdad, nuevoTipo, nuevoMetodo);
+            dao.actualizarCompleto(clienteAEditar.getId(), nuevoNombre, nuevaEdad, nuevoTipo);
 
             JOptionPane.showMessageDialog(this, "Cliente actualizado ✅");
             dispose();
@@ -313,17 +285,14 @@ public class VentanaEditarCliente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarEditar;
     private javax.swing.JButton btnGuardarCambios;
-    private javax.swing.JComboBox<MetodoPago> cboEditarPago;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblPago1;
     private javax.swing.JTextField txtEditarEdad;
     private javax.swing.JTextField txtEditarNombre;
     private javax.swing.JTextField txtEditarTipo;

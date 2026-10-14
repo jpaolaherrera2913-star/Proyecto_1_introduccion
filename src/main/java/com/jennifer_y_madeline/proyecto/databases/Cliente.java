@@ -31,18 +31,13 @@ public class Cliente {
     @JoinColumn(name = "tipo_cliente_id", nullable = false)
     private TipoCliente tipoCliente;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "metodo_pago_id", nullable = false)
-    private MetodoPago metodoPago;
-
     public Cliente() {
     }
 
-    public Cliente(String nombre, Integer edad, TipoCliente tipoCliente, MetodoPago metodoPago) {
+    public Cliente(String nombre, Integer edad, TipoCliente tipoCliente) {
         this.nombre = nombre;
         this.edad = edad;
         this.tipoCliente = tipoCliente;
-        this.metodoPago = metodoPago;
     }
 
     public Integer getId() {
@@ -75,14 +70,6 @@ public class Cliente {
 
     public void setTipoCliente(TipoCliente tipoCliente) {
         this.tipoCliente = tipoCliente;
-    }
-
-    public MetodoPago getMetodoPago() {
-        return metodoPago;
-    }
-
-    public void setMetodoPago(MetodoPago metodoPago) {
-        this.metodoPago = metodoPago;
     }
 
     @Override

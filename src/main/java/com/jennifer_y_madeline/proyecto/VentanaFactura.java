@@ -17,8 +17,27 @@ public class VentanaFactura extends javax.swing.JPanel {
         initComponents();
     }
 
-    VentanaFactura(String nombre, String nombre0, int totalItems, double subtotalGeneral, double porcentajeDesc, double montoDesc, double d, double totalFinal, String efectivo__General, double d0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public VentanaFactura(com.jennifer_y_madeline.proyecto.databases.Cliente cliente,
+            java.util.List<com.jennifer_y_madeline.proyecto.databases.Venta> ventas) {
+        initComponents();
+        setLayout(new java.awt.BorderLayout());
+        javax.swing.JTextArea texto = new javax.swing.JTextArea(18, 42);
+        texto.setEditable(false);
+        texto.setBackground(new java.awt.Color(248, 246, 252));
+        texto.setForeground(new java.awt.Color(79, 57, 122));
+        texto.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        StringBuilder recibo = new StringBuilder("Estrella Peluda - Comprobante de venta\n\n");
+        recibo.append("Cliente: ").append(cliente.getNombre()).append("\nPago: ").append(ventas.get(0).getMetodoPago().getNombre()).append("\n");
+        recibo.append("Fecha: ").append(ventas.get(0).getFecha()).append("\n\n");
+        java.math.BigDecimal total = java.math.BigDecimal.ZERO;
+        for (var venta : ventas) {
+            java.math.BigDecimal subtotal = venta.getPrecioUnitario().multiply(java.math.BigDecimal.valueOf(venta.getCantidad()));
+            recibo.append(venta.getCantidad()).append(" x ").append(venta.getProducto().getNombre()).append("  Q ").append(subtotal).append("\n");
+            total = total.add(subtotal);
+        }
+        texto.setText(recibo.append("\nTotal: Q ").append(total).toString());
+        texto.setCaretPosition(0);
+        add(new javax.swing.JScrollPane(texto), java.awt.BorderLayout.CENTER);
     }
 
     /**

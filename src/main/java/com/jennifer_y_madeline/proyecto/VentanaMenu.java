@@ -300,7 +300,6 @@ private void configurarBotonMenu(final javax.swing.JButton btn) {
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
           marcarComoActivo(btnVentas);
-        mostrarPanel(new PanelEnDesarrollo("Registrar Ventas"));
         mostrarPanel(new PanelRegistroVentas());
     }//GEN-LAST:event_btnVentasActionPerformed
 

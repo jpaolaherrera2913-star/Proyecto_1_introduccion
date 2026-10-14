@@ -17,7 +17,7 @@ public class MetodoPago {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "nombre", nullable = false, unique = true, length = 50)
+    @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
 
     public MetodoPago() {

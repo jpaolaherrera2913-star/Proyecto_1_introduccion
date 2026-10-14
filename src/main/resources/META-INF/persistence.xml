@@ -9,6 +9,9 @@
         <class>com.jennifer_y_madeline.proyecto.databases.MetodoPago</class>
         <class>com.jennifer_y_madeline.proyecto.databases.Cliente</class>
 
+        <class>com.jennifer_y_madeline.proyecto.databases.Producto</class>
+        <class>com.jennifer_y_madeline.proyecto.databases.Venta</class>
+
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url"

@@ -3,6 +3,11 @@ package com.jennifer_y_madeline.proyecto;
 import com.jennifer_y_madeline.proyecto.databases.Cliente;
 import com.jennifer_y_madeline.proyecto.databases.ClienteDAO;
 import java.util.List;
+import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import com.jennifer_y_madeline.proyecto.databases.*;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
@@ -13,8 +18,9 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
     private List<Cliente> listaClientes;
     private DefaultTableModel modeloTablaResumen;
     
-    private static int contadorVentasTotales = 0;   
-    double acumuladorIngresosTotales = 0.0;
+    private final VentaDAO ventaDAO = new VentaDAO();
+    private List<Producto> productos = new ArrayList<>();
+    private final List<Venta> detalle = new ArrayList<>();
 
     public PanelRegistroVentas() {
         initComponents();
@@ -25,12 +31,42 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
         configurarTabla();
         cargarClientesCombo();
         
-        if (txtFecha != null && (txtFecha.getText().isEmpty() || txtFecha.getText().equals(""))) {
-            txtFecha.setText("13/10/2026");
-        }
-        if (txtCantidad != null) {
-            txtCantidad.setValue(1);
-        }
+        txtFecha.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/uuuu")));
+        txtFecha.setEditable(false);
+        txtPrecio.setEditable(false);
+        txtCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
+        txtProducto.addActionListener(e -> actualizarPrecio());
+        jLabel26.setText("Descuento (no aplica)");
+        cargarProductos();
+    }
+
+    private void actualizarPrecio() {
+        int i = txtProducto.getSelectedIndex();
+        txtPrecio.setText(i >= 0 && i < productos.size() ? productos.get(i).getPrecioUnitario().toPlainString() : "");
+    }
+
+    private void cargarProductos() {
+        btnAgregarProducto.setEnabled(false);
+        btnRegistrarVenta.setEnabled(false);
+        new SwingWorker<Object[], Void>() {
+            protected Object[] doInBackground() { return new Object[]{ventaDAO.listarProductos(), ventaDAO.listarMetodos()}; }
+            @SuppressWarnings("unchecked")
+            protected void done() {
+                try {
+                    Object[] datos = get();
+                    productos = (List<Producto>) datos[0];
+                    cboPago.removeAllItems();
+                    for (MetodoPago pago : (List<MetodoPago>) datos[1]) cboPago.addItem(pago);
+                    txtProducto.removeAllItems();
+                    for (Producto producto : productos) txtProducto.addItem(producto.getNombre() + " (#" + producto.getId() + ")");
+                    actualizarPrecio();
+                    btnAgregarProducto.setEnabled(true);
+                    btnRegistrarVenta.setEnabled(true);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(PanelRegistroVentas.this, "Error al cargar productos: " + ex.getMessage());
+                }
+            }
+        }.execute();
     }
 
     private void configurarTabla() {
@@ -69,47 +105,11 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
     }
 
     private void calcularTotalesGlobales() {
-        double subtotalGeneral = 0.0;
-        int filas = modeloTablaResumen.getRowCount();
-
-        for (int i = 0; i < filas; i++) {
-            String subStr = modeloTablaResumen.getValueAt(i, 2).toString()
-                    .replace("Q", "").replace(" ", "").trim();
-            subtotalGeneral += Double.parseDouble(subStr);
-        }
-
-        lblSubtotalMonto.setText("Q " + String.format("%.2f", subtotalGeneral));
-        
-        int indexCliente = cboCliente.getSelectedIndex();
-        if (indexCliente >= 0 && listaClientes != null && !listaClientes.isEmpty()) {
-            Cliente cliente = listaClientes.get(indexCliente);
-            double descuento = obtenerPorcentajeDescuento(cliente.getTipoCliente().getNombre(), subtotalGeneral);
-            double montoDesc = subtotalGeneral * descuento;
-            double totalFinal = subtotalGeneral - montoDesc;
-
-            lblDescuentoMonto.setText("Q " + String.format("%.2f", montoDesc));
-            lblTotalMonto.setText("Q " + String.format("%.2f", totalFinal));
-        }
-    }
-
-    private double obtenerPorcentajeDescuento(String tipoCliente, double monto) {
-        String tipo = tipoCliente.toLowerCase();
-        double porcentaje = 0.0;
-
-        if (tipo.contains("regular")) {
-            if (monto >= 500.0) porcentaje = 0.08;
-            else if (monto >= 200.0) porcentaje = 0.05;
-            else porcentaje = 0.0;
-        } else if (tipo.contains("frecuente")) {
-            if (monto >= 500.0) porcentaje = 0.15;
-            else if (monto >= 200.0) porcentaje = 0.10;
-            else porcentaje = 0.05;
-        } else if (tipo.contains("corporativo")) {
-            if (monto >= 1000.0) porcentaje = 0.20;
-            else if (monto >= 500.0) porcentaje = 0.15;
-            else porcentaje = 0.10;
-        }
-        return porcentaje;
+        BigDecimal total = BigDecimal.ZERO;
+        for (Venta venta : detalle) total = total.add(venta.getPrecioUnitario().multiply(BigDecimal.valueOf(venta.getCantidad())));
+        lblSubtotalMonto.setText("Q " + total.toPlainString());
+        lblDescuentoMonto.setText("Q 0.00");
+        lblTotalMonto.setText("Q " + total.toPlainString());
     }
 
     /**
@@ -139,6 +139,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         cboCliente = new javax.swing.JComboBox<>();
+        cboPago = new javax.swing.JComboBox<>();
         txtProducto = new javax.swing.JComboBox<>();
         txtCantidad = new javax.swing.JSpinner();
         txtPrecio = new javax.swing.JTextField();
@@ -235,6 +236,9 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
 
         cboCliente.setBackground(new java.awt.Color(239, 235, 245));
         cboCliente.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
+
+        cboPago.setBackground(new java.awt.Color(239, 235, 245));
+        cboPago.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
 
         txtProducto.setBackground(new java.awt.Color(239, 235, 245));
         txtProducto.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
@@ -371,7 +375,8 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboPago, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         cardFormularioLayout.setVerticalGroup(
@@ -410,7 +415,9 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                     .addComponent(lblTitulo5, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTitulo7, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboPago, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addGap(12, 12, 12)
@@ -598,96 +605,63 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
     }//GEN-LAST:event_txtPrecioActionPerformed
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
-     String producto = "";
-        if (txtProducto.getSelectedItem() != null) {
-            producto = txtProducto.getSelectedItem().toString().trim();
-        }
-        String precioStr = txtPrecio.getText().trim();
-        int cantidad = 1;
+        int indice = txtProducto.getSelectedIndex();
+        if (indice < 0 || indice >= productos.size()) return;
         try {
-            cantidad = (Integer) txtCantidad.getValue();
-        } catch (Exception e) {
-            cantidad = 1;
-        }
-
-        while (producto.isEmpty() || precioStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor complete el producto y el precio unitario.");
-            return;
-        }
-
-        try {
-            double precio = Double.parseDouble(precioStr);
-
-            if (cantidad <= 0 || precio < 0) {
-                JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor a 0 y el precio no puede ser negativo.");
+            txtCantidad.commitEdit();
+            int cantidad = ((Number) txtCantidad.getValue()).intValue();
+            Producto producto = productos.get(indice);
+            int reservada = detalle.stream().filter(v -> v.getProducto().getId().equals(producto.getId())).mapToInt(Venta::getCantidad).sum();
+            if (cantidad <= 0 || cantidad > producto.getCantidad() - reservada) {
+                JOptionPane.showMessageDialog(this, "Cantidad inv\u00e1lida o existencias insuficientes.");
                 return;
             }
-
-            double subtotalProducto = cantidad * precio;
-
-            modeloTablaResumen.addRow(new Object[]{producto, cantidad, "Q " + String.format("%.2f", subtotalProducto)});
-            
-            txtPrecio.setText("");
+            Venta venta = new Venta();
+            venta.setProducto(producto);
+            venta.setCantidad(cantidad);
+            venta.setPrecioUnitario(producto.getPrecioUnitario());
+            detalle.add(venta);
+            modeloTablaResumen.addRow(new Object[]{producto.getNombre(), cantidad,
+                "Q " + producto.getPrecioUnitario().multiply(BigDecimal.valueOf(cantidad)).toPlainString()});
             txtCantidad.setValue(1);
-            
             calcularTotalesGlobales();
-
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Ingrese un precio numérico válido.");
+        } catch (java.text.ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Ingrese una cantidad v\u00e1lida.");
         }
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
-      int filas = modeloTablaResumen.getRowCount();
-        if (filas == 0) {
-            JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto a la venta.");
+        int indice = cboCliente.getSelectedIndex();
+        MetodoPago pago = (MetodoPago) cboPago.getSelectedItem();
+        if (pago == null || detalle.isEmpty() || listaClientes == null || indice < 0) {
+            JOptionPane.showMessageDialog(this, "Seleccione cliente, forma de pago y agregue productos.");
             return;
         }
-
-        int indexCliente = cboCliente.getSelectedIndex();
-        if (indexCliente < 0 || listaClientes == null) return;
-        Cliente clienteSeleccionado = listaClientes.get(indexCliente);
-
-        double subtotalGeneral = 0.0;
-        int totalItems = 0;
-
-        for (int i = 0; i < filas; i++) {
-            int cant = Integer.parseInt(modeloTablaResumen.getValueAt(i, 1).toString());
-            String subStr = modeloTablaResumen.getValueAt(i, 2).toString().replace("Q", "").trim();
-            subtotalGeneral += Double.parseDouble(subStr);
-            totalItems += cant;
+        Cliente cliente = listaClientes.get(indice);
+        LocalDateTime fecha = LocalDateTime.now();
+        for (Venta venta : detalle) {
+            venta.setCliente(cliente);
+            venta.setMetodoPago(pago);
+            venta.setFecha(fecha);
         }
-
-        double porcentajeDesc = obtenerPorcentajeDescuento(clienteSeleccionado.getTipoCliente().getNombre(), subtotalGeneral);
-        double montoDesc = subtotalGeneral * porcentajeDesc;
-        double totalFinal = subtotalGeneral - montoDesc;
-
-        contadorVentasTotales++;
-        acumuladorIngresosTotales += totalFinal;
-
-        VentanaFactura factura = new VentanaFactura(
-                clienteSeleccionado.getNombre(),
-                clienteSeleccionado.getTipoCliente().getNombre(),
-                totalItems,
-                subtotalGeneral,
-                porcentajeDesc,
-                montoDesc,
-                0.0,
-                totalFinal,
-                "Efectivo / General",
-                0.0
-        );
-        factura.setVisible(true);
-
+        try {
+            ventaDAO.guardar(detalle);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "No se pudo guardar la venta: " + ex.getMessage());
+            return;
+        }
+        JOptionPane.showMessageDialog(this, new VentanaFactura(cliente, detalle), "Comprobante de venta", JOptionPane.PLAIN_MESSAGE);
+        detalle.clear();
         modeloTablaResumen.setRowCount(0);
-        lblSubtotalMonto.setText("Q 0.00");
-        lblDescuentoMonto.setText("Q 0.00");
-        lblTotalMonto.setText("Q 0.00");
+        calcularTotalesGlobales();
+        txtFecha.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/uuuu")));
+        cargarProductos();
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+       detalle.clear();
        modeloTablaResumen.setRowCount(0);
-        txtPrecio.setText("");
+        actualizarPrecio();
         if (txtCantidad != null) txtCantidad.setValue(1);
         lblSubtotalMonto.setText("Q 0.00");
         lblDescuentoMonto.setText("Q 0.00");
@@ -702,6 +676,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
     private javax.swing.JPanel cardFormulario;
     private javax.swing.JPanel cardResumen;
     private javax.swing.JComboBox<String> cboCliente;
+    private javax.swing.JComboBox<MetodoPago> cboPago;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;

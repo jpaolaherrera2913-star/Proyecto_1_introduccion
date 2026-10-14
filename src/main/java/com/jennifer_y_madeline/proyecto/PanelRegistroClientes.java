@@ -1,7 +1,6 @@
 package com.jennifer_y_madeline.proyecto;
 import com.jennifer_y_madeline.proyecto.databases.Cliente;
 import com.jennifer_y_madeline.proyecto.databases.ClienteDAO;
-import com.jennifer_y_madeline.proyecto.databases.MetodoPago;
 import com.jennifer_y_madeline.proyecto.databases.TipoCliente;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -20,6 +19,7 @@ public class PanelRegistroClientes extends javax.swing.JFrame {
 
     public PanelRegistroClientes() {
         initComponents();
+        jLabel11.setVisible(false);
         cargarCombos();
          configurarValidacionEnVivo();
          configurarTabla();   
@@ -43,9 +43,6 @@ public class PanelRegistroClientes extends javax.swing.JFrame {
     }
     
 
-  private final String[] TIPOS_VALIDOS = {
-    "cliente regular", "cliente frecuente", "cliente corporativo"
-};
 private List<TipoCliente> tipos = new ArrayList<>();
 
 private void cargarCombos() {
@@ -53,7 +50,7 @@ private void cargarCombos() {
     new SwingWorker<Object[], Void>() {
         @Override
         protected Object[] doInBackground() {
-            return new Object[]{dao.listarTipos(), dao.listarMetodos()};
+            return new Object[]{dao.listarTipos()};
         }
 
         @Override
@@ -62,8 +59,6 @@ private void cargarCombos() {
             try {
                 Object[] r = get();
                 tipos = (List<TipoCliente>) r[0];
-                for (MetodoPago m : (List<MetodoPago>) r[1]) cboMetodo1.addItem(m);
-                cboMetodo1.setSelectedIndex(-1);
                 btnGuardar.setEnabled(true);
             } catch (Exception ex) {
                 mostrarError("No se pudieron cargar los catálogos", ex);
@@ -104,7 +99,7 @@ private void revisarCampos() {
         lblEdadMsg.setText("Edad válida");
     } else {
         lblEdadMsg.setForeground(rojo);
-        lblEdadMsg.setText("Edad no válida (1 a 120)");
+        lblEdadMsg.setText("Edad no válida (0 a 255)");
     }
     
     if (esTextoAyudaTipo || tipo.isEmpty()) {
@@ -114,24 +109,21 @@ private void revisarCampos() {
         lblTipoMsg.setText("Cliente válido");
     } else {
         lblTipoMsg.setForeground(rojo);
-        lblTipoMsg.setText("Escriba: Cliente regular, frecuente o corporativo");
+        lblTipoMsg.setText("Escriba un tipo de cliente del cat\u00e1logo");
     }
 }
 
 private boolean edadValida(String texto) {
     try {
         int n = Integer.parseInt(texto);
-        return n >= 1 && n <= 120;
+        return n >= 0 && n <= 255;
     } catch (NumberFormatException ex) {
         return false;
     }
 }
 
 private boolean tipoValido(String texto) {
-    for (String t : TIPOS_VALIDOS) {
-        if (t.equalsIgnoreCase(texto)) return true;
-    }
-    return false;
+    return buscarTipo(texto) != null;
 }
 
 private TipoCliente buscarTipo(String texto) {
@@ -159,11 +151,6 @@ boolean esTextoAyudaTipo   = tipoTxt.isEmpty()  || tipoTxt.startsWith("👥");
         txtNombre1.requestFocus();
         return;
     }
-    if (esTextoAyudaEdad) {
-        avisar("Ingrese la edad del cliente.");
-        txtEdad.requestFocus();
-        return;
-    }
     if (esTextoAyudaTipo) {
         avisar("Escriba el tipo de cliente.");
         txtTipo.requestFocus();
@@ -186,11 +173,11 @@ boolean esTextoAyudaTipo   = tipoTxt.isEmpty()  || tipoTxt.startsWith("👥");
         return;
     }
     
-    int edad;
+    Integer edad;
     try {
-        edad = Integer.parseInt(edadTxt);
-        if (edad < 1 || edad > 120) {
-            avisar("La edad debe ser entre 1 y 120.");
+        edad = esTextoAyudaEdad ? null : Integer.valueOf(edadTxt);
+        if (edad != null && (edad < 0 || edad > 255)) {
+            avisar("La edad debe ser entre 0 y 255.");
             txtEdad.requestFocus();
             return;
         }
@@ -202,20 +189,13 @@ boolean esTextoAyudaTipo   = tipoTxt.isEmpty()  || tipoTxt.startsWith("👥");
     
     TipoCliente tipo = buscarTipo(tipoTxt);
     if (tipo == null) {
-        avisar("Ese tipo de cliente no existe.\nEscribe: Cliente regular, Frecuente o Corporativo");
+        avisar("Ese tipo de cliente no existe en el cat\u00e1logo.");
         txtTipo.requestFocus();
         return;
     }
     
-    MetodoPago metodo = (MetodoPago) cboMetodo1.getSelectedItem();
-    if (metodo == null) {
-        avisar("Seleccione el método de pago.");
-        cboMetodo1.requestFocus();
-        return;
-    }
-    
     try {
-        dao.guardar(new Cliente(nombre, edad, tipo, metodo));
+        dao.guardar(new Cliente(nombre, edad, tipo));
         JOptionPane.showMessageDialog(this, "Cliente registrado correctamente.",
                 "Registro", JOptionPane.INFORMATION_MESSAGE);
         limpiar(); 
@@ -235,7 +215,6 @@ private void limpiar() {
     
     txtTipo.setText("  👥    Ej. Cliente Frecuente");
     txtTipo.setForeground(new java.awt.Color(150, 150, 150));
-    cboMetodo1.setSelectedIndex(-1);
     lblEdadMsg.setText("");
     lblTipoMsg.setText("");
     txtNombre1.requestFocus();
@@ -265,8 +244,6 @@ private void limpiar() {
         lblEdadMsg = new javax.swing.JLabel();
         txtTipo = new javax.swing.JTextField();
         lblTipoMsg = new javax.swing.JLabel();
-        lblPago1 = new javax.swing.JLabel();
-        cboMetodo1 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -276,7 +253,6 @@ private void limpiar() {
         jLabel1 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jLabel15 = new javax.swing.JLabel();
         lblTitulo3 = new javax.swing.JLabel();
         lblTitulo2 = new javax.swing.JLabel();
         lblTitulo4 = new javax.swing.JLabel();
@@ -373,11 +349,7 @@ private void limpiar() {
         lblTipoMsg.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         lblTipoMsg.setForeground(new java.awt.Color(204, 204, 204));
 
-        lblPago1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblPago1.setText("Método de pago");
 
-        cboMetodo1.setBackground(new java.awt.Color(239, 235, 245));
-        cboMetodo1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Tipo de cliente");
@@ -420,9 +392,6 @@ private void limpiar() {
         btnCancelar.setFocusPainted(false);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
-        jLabel15.setForeground(new java.awt.Color(252, 0, 0));
-        jLabel15.setText("*");
-        jLabel15.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         lblTitulo3.setBackground(new java.awt.Color(0, 0, 0));
         lblTitulo3.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.BOLD, 10)
@@ -458,11 +427,6 @@ private void limpiar() {
                         .addComponent(lblEdadMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtTipo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblTipoMsg, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                            .addComponent(lblPago1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(cboMetodo1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                             .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(27, 27, 27)
@@ -525,11 +489,7 @@ private void limpiar() {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(lblTipoMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(lblPago1)
-                .addComponent(jLabel15))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(cboMetodo1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -629,7 +589,7 @@ private void limpiar() {
     
     if (seguro == JOptionPane.YES_OPTION) {
         try {
-           dao.eliminarPorNombre(nombre);
+           dao.eliminar(clientes.get(tblClientes1.convertRowIndexToModel(fila)).getId());
             JOptionPane.showMessageDialog(this, "Cliente eliminado ✅");
             cargarClientes();
         } catch (Exception ex) {
@@ -648,28 +608,8 @@ private void limpiar() {
     }
     
     // ✅ Obtener TODOS los datos de la fila, NO solo el nombre
-    String nombre = modeloTabla.getValueAt(fila, 0).toString();
-    int edadFila = Integer.parseInt(modeloTabla.getValueAt(fila, 1).toString());
-    String tipoFila = modeloTabla.getValueAt(fila, 2).toString();
-    String metodoFila = modeloTabla.getValueAt(fila, 3).toString();
-    
-    Cliente seleccionado = null;
-    for (Cliente c : dao.listar()) {
-        // ✅ Coincidir por TODOS los campos o por ID
-        if (c.getNombre().equals(nombre) &&
-            c.getEdad() == edadFila &&
-            c.getTipoCliente().getNombre().equals(tipoFila) &&
-            c.getMetodoPago().getNombre().equals(metodoFila)) {
-            seleccionado = c;
-            break;
-        }
-    }
-    
-    if (seleccionado == null) {
-        JOptionPane.showMessageDialog(this, "Cliente no encontrado");
-        return;
-    }
-    
+    Cliente seleccionado = clientes.get(tblClientes1.convertRowIndexToModel(fila));
+
     VentanaEditarCliente ventana = new VentanaEditarCliente(seleccionado);
     ventana.setVisible(true);
     ventana.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -724,7 +664,6 @@ private void limpiar() {
     private javax.swing.JButton actualizarNombre;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JComboBox<MetodoPago> cboMetodo1;
     private javax.swing.JButton eliminarPorNombre1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
@@ -734,7 +673,6 @@ private void limpiar() {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -745,7 +683,6 @@ private void limpiar() {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblEdadMsg;
-    private javax.swing.JLabel lblPago1;
     private javax.swing.JLabel lblTipoMsg;
     private javax.swing.JLabel lblTitulo1;
     private javax.swing.JLabel lblTitulo2;
@@ -770,10 +707,11 @@ private void mostrarError(String titulo, Exception ex) {
 }
     private DefaultTableModel modeloTabla;
     private int totalClientes = 0;
+    private List<Cliente> clientes = new ArrayList<>();
 
 private void configurarTabla() {
     modeloTabla = new DefaultTableModel(
-            new Object[]{"Nombre", "Edad", "Tipo de cliente", "Método de pago"}, 0) {
+            new Object[]{"Nombre", "Edad", "Tipo de cliente"}, 0) {
         @Override
         public boolean isCellEditable(int fila, int columna) {
             return false;   
@@ -794,13 +732,13 @@ private void cargarClientes() {
         protected void done() {
             try {
                 List<Cliente> lista = get();
+                clientes = lista;
                 modeloTabla.setRowCount(0);
                 for (Cliente c : lista) {
                     modeloTabla.addRow(new Object[]{
                         c.getNombre(),
                         c.getEdad(),
-                        c.getTipoCliente().getNombre(),
-                        c.getMetodoPago().getNombre()
+                        c.getTipoCliente().getNombre()
                     });
                 }
                 totalClientes = lista.size();

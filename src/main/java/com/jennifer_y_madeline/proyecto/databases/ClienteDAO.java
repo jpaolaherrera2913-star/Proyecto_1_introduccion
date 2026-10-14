@@ -15,16 +15,6 @@ public class ClienteDAO {
         }
     }
 
-    public List<MetodoPago> listarMetodos() {
-        EntityManager em = JPAUtil.getEntityManager();
-        try {
-            return em.createQuery("SELECT m FROM MetodoPago m ORDER BY m.nombre", MetodoPago.class)
-                     .getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
     public List<Cliente> listar() {
         EntityManager em = JPAUtil.getEntityManager();
         try {
@@ -61,6 +51,8 @@ public class ClienteDAO {
             em.getTransaction().begin();
             Cliente c = em.find(Cliente.class, id);
             if (c != null) {
+                Long ventas = em.createQuery("SELECT COUNT(v) FROM Venta v WHERE v.cliente.id = :id", Long.class).setParameter("id", id).getSingleResult();
+                if (ventas > 0) throw new IllegalArgumentException("No se puede eliminar un cliente con ventas registradas.");
                 em.remove(c);
             }
             em.getTransaction().commit();
@@ -73,58 +65,7 @@ public class ClienteDAO {
             em.close();
         }
     }    
-    public void actualizarNombre(String nombreAntiguo, String nombreNuevo) {
-        EntityManager em = JPAUtil.getEntityManager();
-        try {
-            em.getTransaction().begin();
-            
-            Cliente cliente = em.createQuery(
-                "SELECT c FROM Cliente c WHERE c.nombre = :nom", Cliente.class)
-                .setParameter("nom", nombreAntiguo)
-                .setMaxResults(1)
-                .getSingleResult();
-            
-            cliente.setNombre(nombreNuevo.trim());
-            
-            em.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        } finally {
-            em.close();
-        }
-    }
-
-    public void eliminarPorNombre(String nombre) {
-        EntityManager em = JPAUtil.getEntityManager();
-        try {
-            em.getTransaction().begin();
-            
-          
-            Cliente cliente = em.createQuery(
-                "SELECT c FROM Cliente c WHERE c.nombre = :nom", Cliente.class)
-                .setParameter("nom", nombre)
-                .setMaxResults(1)
-                .getSingleResult();
-           
-            if (cliente != null) {
-                em.remove(cliente);
-            }
-            
-            em.getTransaction().commit();
-        } catch (RuntimeException e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        } finally {
-            em.close();
-        }
-    }
-     
-    public void actualizarCompleto(Integer id, String nombre, int edad, TipoCliente tipo, MetodoPago pago) {
+    public void actualizarCompleto(Integer id, String nombre, Integer edad, TipoCliente tipo) {
        
         EntityManager em = JPAUtil.getEntityManager();
         
@@ -139,7 +80,6 @@ public class ClienteDAO {
             c.setNombre(nombre);
             c.setEdad(edad);
             c.setTipoCliente(tipo);
-            c.setMetodoPago(pago);
             
             em.getTransaction().commit();
         } catch (RuntimeException e) {
