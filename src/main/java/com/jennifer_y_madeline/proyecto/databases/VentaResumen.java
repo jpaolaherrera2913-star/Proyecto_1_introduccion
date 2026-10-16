@@ -5,10 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Una venta completa: junta las líneas (productos) que se registraron en la misma venta
- * (mismo cliente, misma fecha y mismo método de pago).
- */
+
 public class VentaResumen {
 
     private final List<Venta> lineas = new ArrayList<>();
@@ -21,7 +18,6 @@ public class VentaResumen {
         return lineas;
     }
 
-    /** Número de venta: el id de su primera línea. */
     public int getNumero() {
         int menor = Integer.MAX_VALUE;
         for (Venta v : lineas) {
@@ -44,7 +40,6 @@ public class VentaResumen {
         return lineas.get(0).getMetodoPago();
     }
 
-    /** Suma de precio x cantidad de todas las líneas. */
     public BigDecimal getTotal() {
         BigDecimal total = BigDecimal.ZERO;
         for (Venta v : lineas) {

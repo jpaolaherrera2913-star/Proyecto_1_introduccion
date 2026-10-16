@@ -11,13 +11,9 @@ import javax.swing.SwingWorker;
  * @author jpaol
  */
 public class PanelInicio extends javax.swing.JPanel {
-    private final ClienteDAO dao = new ClienteDAO(); // ✅ Agrega esto
+    private final ClienteDAO dao = new ClienteDAO(); 
     private final VentaDAO ventaDAO = new VentaDAO();
     
-
-    /**
-     * Creates new form PanelInicio
-     */
     public PanelInicio() {
         initComponents();
         Imagenes.ponerPerroYGato(jLabel3, 110);
@@ -25,12 +21,10 @@ public class PanelInicio extends javax.swing.JPanel {
         recargarVentasDelDia();
     }
 
-    /** Muestra en la tarjeta "Ventas del Día" cuántas ventas van hoy. */
     public void actualizarVentas(long cantidad) {
         lblNumVentas.setText(String.valueOf(cantidad));
     }
 
-    /** Vuelve a consultar la base de datos y actualiza el número de ventas del día. */
     public void recargarVentasDelDia() {
         new SwingWorker<Long, Void>() {
             @Override
@@ -42,8 +36,8 @@ public class PanelInicio extends javax.swing.JPanel {
                 try {
                     actualizarVentas(get());
                 } catch (Exception ex) {
-                    ex.printStackTrace();   // el error real aparece en la consola de NetBeans
-                    actualizarVentas(0); // Si hay error, muestra 0
+                    ex.printStackTrace();
+                    actualizarVentas(0); 
                 }
             }
         }.execute();
@@ -61,9 +55,9 @@ public class PanelInicio extends javax.swing.JPanel {
             protected void done() {
                 try {
                     List<Cliente> lista = get();
-                    actualizarClientes(lista.size()); // ✅ Muestra el número
+                    actualizarClientes(lista.size()); 
                 } catch (Exception ex) {
-                    actualizarClientes(0); // Si hay error, muestra 0
+                    actualizarClientes(0); 
                 }
             }
         }.execute();

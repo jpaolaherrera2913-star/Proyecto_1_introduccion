@@ -12,15 +12,12 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-/**
- * Fondo de la ventana de login: degradado crema con huellitas y huesitos
- * decorativos en lila. Solo dibuja el fondo; no tiene componentes propios.
- */
+
 public class FondoLogin extends JPanel {
 
     private static final Color LILA = new Color(160, 135, 210);
 
-    private JComponent tarjeta;   // opcional: para dibujarle una sombra suave
+    private JComponent tarjeta; 
 
     public FondoLogin() {
         setOpaque(true);
@@ -39,12 +36,10 @@ public class FondoLogin extends JPanel {
         int w = getWidth();
         int h = getHeight();
 
-        // Degradado crema -> lavanda muy suave
         g2.setPaint(new GradientPaint(0, 0, new Color(255, 248, 238),
                 w, h, new Color(243, 236, 250)));
         g2.fillRect(0, 0, w, h);
 
-        // Decoraciones (x, y en proporción del tamaño, tamaño en px, rotación en grados)
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.40f));
         g2.setColor(LILA);
         huella(g2, w * 0.045, h * 0.09, 30, -20);
@@ -57,7 +52,6 @@ public class FondoLogin extends JPanel {
         hueso(g2, w * 0.30, h * 0.93, 46, -25);
         hueso(g2, w * 0.455, h * 0.50, 36, 35);
 
-        // Sombra suave detrás de la tarjeta del formulario
         if (tarjeta != null && tarjeta.isShowing()) {
             int x = tarjeta.getX();
             int y = tarjeta.getY();
@@ -72,20 +66,19 @@ public class FondoLogin extends JPanel {
         g2.dispose();
     }
 
-    /** Huellita: una almohadilla grande + cuatro deditos. cx, cy = centro; s = tamaño. */
     private void huella(Graphics2D g2, double cx, double cy, double s, double grados) {
         AffineTransform viejo = g2.getTransform();
         g2.translate(cx, cy);
         g2.rotate(Math.toRadians(grados));
-        g2.fill(new Ellipse2D.Double(-s * 0.32, -s * 0.05, s * 0.64, s * 0.52));          // almohadilla
-        g2.fill(new Ellipse2D.Double(-s * 0.52, -s * 0.30, s * 0.24, s * 0.32));          // dedo izq.
-        g2.fill(new Ellipse2D.Double(-s * 0.27, -s * 0.52, s * 0.24, s * 0.34));          // dedo centro izq.
-        g2.fill(new Ellipse2D.Double(s * 0.03, -s * 0.52, s * 0.24, s * 0.34));           // dedo centro der.
-        g2.fill(new Ellipse2D.Double(s * 0.28, -s * 0.30, s * 0.24, s * 0.32));           // dedo der.
+        g2.fill(new Ellipse2D.Double(-s * 0.32, -s * 0.05, s * 0.64, s * 0.52));          
+        g2.fill(new Ellipse2D.Double(-s * 0.52, -s * 0.30, s * 0.24, s * 0.32));          
+        g2.fill(new Ellipse2D.Double(-s * 0.27, -s * 0.52, s * 0.24, s * 0.34));          
+        g2.fill(new Ellipse2D.Double(s * 0.03, -s * 0.52, s * 0.24, s * 0.34));           
+        g2.fill(new Ellipse2D.Double(s * 0.28, -s * 0.30, s * 0.24, s * 0.32));         
         g2.setTransform(viejo);
     }
 
-    /** Huesito: barra redonda con dos bolitas en cada punta. */
+   
     private void hueso(Graphics2D g2, double cx, double cy, double largo, double grados) {
         AffineTransform viejo = g2.getTransform();
         g2.translate(cx, cy);

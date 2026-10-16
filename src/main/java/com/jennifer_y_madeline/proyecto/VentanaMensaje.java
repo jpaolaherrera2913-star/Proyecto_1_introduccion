@@ -8,9 +8,6 @@ public class VentanaMensaje extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaMensaje.class.getName());
     public boolean cancelado = false;
-    /**
-     * Creates new form VentanaMensaje
-     */
   
 
 public VentanaMensaje() {

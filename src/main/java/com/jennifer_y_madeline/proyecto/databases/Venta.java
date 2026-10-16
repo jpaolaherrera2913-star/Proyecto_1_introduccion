@@ -1,4 +1,4 @@
-package com.jennifer_y_madeline.proyecto.databases;
+    package com.jennifer_y_madeline.proyecto.databases;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

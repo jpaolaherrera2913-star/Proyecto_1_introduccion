@@ -64,7 +64,6 @@ public class VentaDAO {
         }
     }
 
-    /** Ventas completas (las líneas de una misma venta agrupadas), de la más reciente a la más antigua. */
     public List<VentaResumen> listarResumenes() {
         EntityManager em = JPAUtil.getEntityManager();
         try {
@@ -81,10 +80,6 @@ public class VentaDAO {
         }
     }
 
-    /**
-     * Elimina una venta completa (todas sus líneas).
-     * Si devolverStock es true, las unidades vuelven al inventario de cada producto.
-     */
     public void eliminarVenta(List<Integer> idsLineas, boolean devolverStock) {
         if (idsLineas == null || idsLineas.isEmpty()) {
             throw new IllegalArgumentException("No hay venta para eliminar.");
@@ -112,10 +107,6 @@ public class VentaDAO {
         }
     }
 
-    /**
-     * Cuenta las ventas de hoy. Igual que en la lista de ventas, las líneas de una misma
-     * venta (mismo cliente, fecha y método de pago) cuentan como UNA sola venta.
-     */
     public Long contarVentasDelDia() {
         java.time.LocalDateTime inicio = java.time.LocalDate.now().atStartOfDay();
         java.time.LocalDateTime fin = inicio.plusDays(1);

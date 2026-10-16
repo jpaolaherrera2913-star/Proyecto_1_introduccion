@@ -6,9 +6,7 @@ package com.jennifer_y_madeline.proyecto;
  */
 public class VentanaFactura extends javax.swing.JPanel {
 
-    /**
-     * Creates new form VentanaFactura
-     */
+   
     public VentanaFactura() {
         initComponents();
         Imagenes.ponerLogo(jLabel1, 70);
@@ -33,8 +31,6 @@ public class VentanaFactura extends javax.swing.JPanel {
     lblClienteValor.setText(cliente.getNombre());
     lblTipoValor.setText(cliente.getTipoCliente().getNombre());
 
-    // Un producto por línea; si el nombre es largo se parte en varias líneas para que
-    // nunca se corte, y la factura crece según la cantidad de productos.
     java.awt.FontMetrics fm = lblProductosValor.getFontMetrics(lblProductosValor.getFont());
     StringBuilder productos = new StringBuilder("<html>");
     for (var venta : ventas) {
@@ -49,7 +45,6 @@ public class VentanaFactura extends javax.swing.JPanel {
 
     lblSubtotalValor.setText("Q " + subtotal.toPlainString());
     lblDescuentoValor.setText("- Q " + descuento.toPlainString() + " (" + porcentaje + "%)");
-    // Recargo del 2% (solo con tarjeta): "Recargo (2%)" y el monto a la par
     if (recargo.signum() > 0) {
         lblRecargo.setText("Recargo (2%)");
         lblRecargoValor.setText("Q " + recargo.toPlainString());
@@ -71,12 +66,11 @@ public class VentanaFactura extends javax.swing.JPanel {
     lblFormaPagoValor.setCaretPosition(0);
 }
 
-    /** Parte un texto en líneas que no pasen del ancho indicado (en píxeles). */
     private static java.util.List<String> partirTexto(String texto, java.awt.FontMetrics fm, int ancho) {
         java.util.List<String> lineas = new java.util.ArrayList<>();
         StringBuilder actual = new StringBuilder();
         for (String palabra : texto.split(" ")) {
-            while (fm.stringWidth(palabra) > ancho) {        // palabra más larga que la línea
+            while (fm.stringWidth(palabra) > ancho) {        
                 int corte = palabra.length() - 1;
                 while (corte > 1 && fm.stringWidth(palabra.substring(0, corte)) > ancho) corte--;
                 if (actual.length() > 0) { lineas.add(actual.toString()); actual.setLength(0); }
@@ -99,7 +93,6 @@ public class VentanaFactura extends javax.swing.JPanel {
         return texto == null ? "" : texto.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
     }
 
-    /** Cierra la ventana que contiene la factura. Úsalo en el botón Aceptar: cerrar(); */
     public void cerrar() {
         java.awt.Window ventana = javax.swing.SwingUtilities.getWindowAncestor(this);
         if (ventana != null) {

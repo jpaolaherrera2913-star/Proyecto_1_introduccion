@@ -22,16 +22,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PanelListaProductos extends javax.swing.JPanel {
 
-    private static final int STOCK_BAJO = 10;   // menos de 10 = "Poco stock"
+    private static final int STOCK_BAJO = 10;  
     private static final String PLACEHOLDER = "🔍 Nombre o código...";
 
     private final ProductoDAO dao = new ProductoDAO();
     private List<Producto> todos = new ArrayList<>();
     private DefaultTableModel modelo;
 
-    /**
-     * Creates new form PanelListaProductos
-     */
     public PanelListaProductos() {
         initComponents();
         Imagenes.ponerLogo2(jLabel1, 70);
@@ -51,8 +48,6 @@ public class PanelListaProductos extends javax.swing.JPanel {
         recargar();
     }
 
-    // ============ TARJETAS (Productos y Stock bajo) ============
-
     private void configurarTarjetas() {
         lblIconoBajo.setText("  ⚠️");
         lblIconoBajo.setFont(new Font("Segoe UI Emoji", Font.BOLD, 15));
@@ -64,7 +59,6 @@ public class PanelListaProductos extends javax.swing.JPanel {
         lblTotalProductos.setFont(new Font("Segoe UI", Font.BOLD, 17));
         lblStockBajo.setFont(new Font("Segoe UI", Font.BOLD, 17));
 
-        // Son solo para mostrar datos: no se pueden editar ni seleccionar
         JTextField[] soloLectura = {lblTotalProductos, lblIconoBajo, lblTxtBajo, lblStockBajo};
         for (JTextField f : soloLectura) {
             f.setEditable(false);
@@ -72,10 +66,8 @@ public class PanelListaProductos extends javax.swing.JPanel {
         }
     }
 
-    // ============ MENU LATERAL (hover y clic) ============
-
     private void configurarMenu() {
-        estilizarBotonMenu(btnProductos, true);   // pagina actual: queda aclarado
+        estilizarBotonMenu(btnProductos, true);   
         estilizarBotonMenu(btnVentas, false);
 
         btnProductos.addActionListener(e -> recargar());
@@ -85,10 +77,6 @@ public class PanelListaProductos extends javax.swing.JPanel {
         });
     }
 
-    /**
-     * Morado normal; al pasar el mouse se aclara; al presionar se oscurece.
-     * activo = true deja el boton aclarado (pagina en la que estas).
-     */
     private void estilizarBotonMenu(JButton b, boolean activo) {
         final Color normal = new Color(55, 38, 88);
         final Color claro = new Color(98, 77, 140);
@@ -131,13 +119,10 @@ public class PanelListaProductos extends javax.swing.JPanel {
         });
     }
 
-    /** Devuelve la ventana principal (la que tiene el menú), o null si no está dentro de ella. */
     private VentanaMenu menuPrincipal() {
         java.awt.Window w = javax.swing.SwingUtilities.getWindowAncestor(this);
         return (w instanceof VentanaMenu) ? (VentanaMenu) w : null;
     }
-
-    // ============ BUSQUEDA ============
 
     private void configurarBusqueda() {
         final Color gris = new Color(160, 160, 170);
@@ -177,8 +162,6 @@ public class PanelListaProductos extends javax.swing.JPanel {
         String t = txtBuscar.getText().trim();
         return t.equals(PLACEHOLDER) ? "" : t;
     }
-
-    // ============ TABLA: [emoji] [producto + estado] [cantidad] ============
 
     private String estado(Producto p) {
         int c = p.getCantidad();
@@ -226,7 +209,6 @@ public class PanelListaProductos extends javax.swing.JPanel {
         tblProductos.getColumnModel().getColumn(0).setMaxWidth(80);
         tblProductos.getColumnModel().getColumn(2).setMaxWidth(110);
 
-        // Columna 1: emoji del estado
         tblProductos.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public java.awt.Component getTableCellRendererComponent(JTable t, Object v,
@@ -239,7 +221,6 @@ public class PanelListaProductos extends javax.swing.JPanel {
             }
         });
 
-        // Columna 2: nombre del producto y su estado (Poco stock / Suficiente / Nada)
         tblProductos.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public java.awt.Component getTableCellRendererComponent(JTable t, Object v,
@@ -257,7 +238,6 @@ public class PanelListaProductos extends javax.swing.JPanel {
             }
         });
 
-        // Columna 3: cuantos hay
         tblProductos.getColumnModel().getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public java.awt.Component getTableCellRendererComponent(JTable t, Object v,
@@ -272,8 +252,6 @@ public class PanelListaProductos extends javax.swing.JPanel {
             }
         });
     }
-
-    // ============ DATOS ============
 
     private void recargar() {
         final java.awt.Component padre = this;
@@ -315,8 +293,6 @@ public class PanelListaProductos extends javax.swing.JPanel {
         lblStockBajo.setText(String.valueOf(bajos));
     }
 
-    // ============ NUEVO / EDITAR / ELIMINAR ============
-
     private Producto seleccionado() {
         int fila = tblProductos.getSelectedRow();
         if (fila < 0) {
@@ -326,7 +302,6 @@ public class PanelListaProductos extends javax.swing.JPanel {
         return (Producto) modelo.getValueAt(tblProductos.convertRowIndexToModel(fila), 0);
     }
 
-    /** Muestra el formulario (vacio o con los datos de base). Devuelve null si cancela. */
     private Producto pedirProducto(Producto base) {
         JTextField fNombre = new JTextField(base == null ? "" : base.getNombre(), 20);
         JTextField fCantidad = new JTextField(base == null ? "" : String.valueOf(base.getCantidad()), 20);

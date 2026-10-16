@@ -10,15 +10,14 @@ public class VentanaMenu extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaMenu.class.getName());
     private javax.swing.JButton botonActivo;
     private PanelInicio panelInicio;
-    private PanelRegistroClientes panelClientes; // Guardamos la referencia
+    private PanelRegistroClientes panelClientes;
     public int opcion = 0;
 
-    // Tamaño único del área donde se muestran todos los paneles (así la ventana no cambia de tamaño)
-    // Tamaño ideal del área; si la pantalla es más pequeña se reduce para que la ventana nunca se corte
+  
     private static final java.awt.Dimension AREA_IDEAL = new java.awt.Dimension(900, 670);
     private java.awt.Dimension areaPaneles = new java.awt.Dimension(AREA_IDEAL);
     private static final java.awt.Color FONDO_PANEL = new java.awt.Color(255, 251, 250);
-    private int anchoMenu;   // ancho que ocupa el menú lateral (para cuando se oculta)
+    private int anchoMenu;
 
 public VentanaMenu() {
         initComponents();
@@ -27,53 +26,47 @@ public VentanaMenu() {
         ajustarAreaALaPantalla();
         contenedor.setPreferredSize(areaPaneles);
         contenedor.setBackground(FONDO_PANEL);
-        setResizable(false);               // tamaño fijo: ya no se estira la ventana
+        setResizable(false);              
         pack();
         setLocationRelativeTo(null);
         contenedor.setLayout(new java.awt.BorderLayout());
         
-        // Inicializar botones
+     
         for (javax.swing.JButton b : new javax.swing.JButton[]{
                 btnCambiarUsuario, btnClientes, btnVentas, btnConsultas,
                 btnEstadisticas, btnCierre, btnSalir}) {
             configurarBotonMenu(b);
         }
          marcarComoActivo(btnCambiarUsuario);
-        
-        // ✅ Mostrar Inicio al abrir la ventana
+  
         panelInicio = new PanelInicio();
         mostrarPanel(panelInicio);
     }
 
-    /** Reduce el área de paneles si la pantalla (ya con su escala) no alcanza para el tamaño ideal. */
+   
     private void ajustarAreaALaPantalla() {
         java.awt.Rectangle util = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-        int ancho = util.width - anchoMenu - 30;     // 30 = bordes de la ventana
-        int alto = util.height - 60;                  // 60 = barra de título y bordes
+        int ancho = util.width - anchoMenu - 30;    
+        int alto = util.height - 60;                  
         areaPaneles = new java.awt.Dimension(
                 Math.max(500, Math.min(AREA_IDEAL.width, ancho)),
                 Math.max(400, Math.min(AREA_IDEAL.height, alto)));
     }
 
     private void mostrarPanel(javax.swing.JPanel panel) {
-        // PanelListaProductos y PanelEliminarVenta traen su propio mini menú: ocultamos el menú de la ventana
         boolean ocultarMenu = (panel instanceof PanelListaProductos) || (panel instanceof PanelEliminarVenta);
         boolean cambioMenu = (jPanel2.isVisible() == ocultarMenu);
         jPanel2.setVisible(!ocultarMenu);
 
-        // Mismo tamaño total siempre: si se oculta el menú, el área crece lo que ocupaba el menú
         contenedor.setPreferredSize(ocultarMenu
                 ? new java.awt.Dimension(areaPaneles.width + anchoMenu, areaPaneles.height)
                 : areaPaneles);
-        // Los paneles de tamaño fijo (Ventas, Clientes) rellenan el resto con su mismo color
         if (panel instanceof PanelRegistroVentas || panel instanceof PanelEliminarVenta
                 || panel.getClass() == javax.swing.JPanel.class) {
             panel.setBackground(FONDO_PANEL);
         }
 
         contenedor.removeAll();
-        // Si un panel es más grande que el área, aparecen barras para llegar a todo (nada queda cortado);
-        // si cabe, se ve igual que siempre y rellena el área.
         javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(panel,
                 javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -85,16 +78,15 @@ public VentanaMenu() {
         contenedor.revalidate();
         contenedor.repaint();
 
-        if (cambioMenu) {      // la ventana se ajusta al nuevo ancho
+        if (cambioMenu) {     
             pack();
             setLocationRelativeTo(null);
         }
     }
 
-    // ===== Navegación pública: los paneles la usan para cambiar de pantalla SIN perder el menú =====
     public void irAInicio() {
         marcarComoActivo(btnCambiarUsuario);
-        panelInicio = new PanelInicio();   // nuevo, así carga el total de clientes actualizado
+        panelInicio = new PanelInicio(); 
         mostrarPanel(panelInicio);
     }
 
@@ -104,12 +96,12 @@ public VentanaMenu() {
     }
 
     public void irAProductos() {
-        marcarComoActivo(btnVentas);       // se llega desde Registrar Ventas
+        marcarComoActivo(btnVentas);
         mostrarPanel(new PanelListaProductos());
     }
 
     public void irAEliminarVenta() {
-        marcarComoActivo(btnVentas);       // se llega desde Registrar Ventas
+        marcarComoActivo(btnVentas);
         mostrarPanel(new PanelEliminarVenta());
     }
         private static final java.awt.Color MENU_FONDO = new java.awt.Color(55, 38, 88);
@@ -353,10 +345,8 @@ private void configurarBotonMenu(final javax.swing.JButton btn) {
     private void btnCambiarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarUsuarioActionPerformed
          marcarComoActivo(btnCambiarUsuario);
         
-        panelInicio = new PanelInicio();   // nuevo: vuelve a leer clientes y ventas del día
+        panelInicio = new PanelInicio();   
         mostrarPanel(panelInicio);
-        
-        // ✅ Si ya se visitó Clientes, actualizar el número
         if (panelClientes != null) {
             panelInicio.actualizarClientes(panelClientes.getTotalClientes());
         }
@@ -364,7 +354,6 @@ private void configurarBotonMenu(final javax.swing.JButton btn) {
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
             marcarComoActivo(btnClientes);
-        // ✅ Solo creamos UNA instancia
         panelClientes = new PanelRegistroClientes();
         mostrarPanel((javax.swing.JPanel) panelClientes.getContentPane());
 

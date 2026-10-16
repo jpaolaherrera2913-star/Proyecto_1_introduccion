@@ -14,12 +14,8 @@ public class VentanaLogin extends javax.swing.JFrame {
         lblIntentos.setText(texto);
     }
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaLogin.class.getName());
-    
-    /**
-     * Creates new form VentanaLogin
-     */
+ 
         public VentanaLogin() {
-        // Fondo decorativo: se pone ANTES de initComponents para que el layout se aplique sobre él
         FondoLogin fondo = new FondoLogin();
         fondo.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 0, 25, 30));
         setContentPane(fondo);
@@ -56,7 +52,7 @@ setFocusTraversalPolicy(new java.awt.FocusTraversalPolicy() {
 
    @Override
 public java.awt.Component getDefaultComponent(java.awt.Container c) {
-    return getContentPane();   // antes: orden[0]
+    return getContentPane(); 
 }
 });
 getContentPane().setFocusable(true);

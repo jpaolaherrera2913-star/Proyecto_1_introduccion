@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.jennifer_y_madeline.proyecto;
 
 import com.jennifer_y_madeline.proyecto.databases.VentaDAO;
@@ -32,9 +28,6 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
     private List<VentaResumen> todas = new ArrayList<>();
     private DefaultTableModel modelo;
 
-    /**
-     * Creates new form PanelEliminarVenta
-     */
     public PanelEliminarVenta() {
         initComponents();
         inicializarLogica();
@@ -49,12 +42,9 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
         jButton1.addActionListener(e -> eliminarVenta());
         recargar();
     }
-
-    // ============ MINI MENU (hover y clic, igual que en la lista de productos) ============
-
     private void configurarMenu() {
-        estilizarBotonMenu(btnProductos, true);    // "Ventas": pagina actual, queda aclarado
-        estilizarBotonMenu(btnVentas, false);      // "Registrar Ventas"
+        estilizarBotonMenu(btnProductos, true);    
+        estilizarBotonMenu(btnVentas, false);      
 
         btnProductos.addActionListener(e -> recargar());
         btnVentas.addActionListener(e -> {
@@ -63,10 +53,7 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
         });
     }
 
-    /**
-     * Morado normal; al pasar el mouse se aclara; al presionar se oscurece.
-     * activo = true deja el boton aclarado (pagina en la que estas).
-     */
+ 
     private void estilizarBotonMenu(JButton b, boolean activo) {
         final Color normal = new Color(55, 38, 88);
         final Color claro = new Color(98, 77, 140);
@@ -109,14 +96,10 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
         });
     }
 
-    /** Devuelve la ventana principal (la que tiene el menú), o null si no está dentro de ella. */
     private VentanaMenu menuPrincipal() {
         java.awt.Window w = javax.swing.SwingUtilities.getWindowAncestor(this);
         return (w instanceof VentanaMenu) ? (VentanaMenu) w : null;
     }
-
-    // ============ BUSQUEDA ============
-
     private void configurarBusqueda() {
         final Color gris = new Color(175, 175, 175);
         final Color oscuro = new Color(60, 40, 100);
@@ -156,8 +139,6 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
         return t.equals(PLACEHOLDER) ? "" : t;
     }
 
-    // ============ TABLA DE VENTAS (viene de MySQL) ============
-
     private String html(String s) {
         return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
     }
@@ -166,7 +147,6 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
         return String.format("%05d", v.getNumero());
     }
 
-    /** Celda con texto (puede llevar HTML) y margen interno; cada columna dice qué texto muestra. */
     private abstract class CeldaVenta extends DefaultTableCellRenderer {
         abstract String texto(VentaResumen v);
 
@@ -203,7 +183,6 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
         jTable1.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 38));
         jScrollPane1.getViewport().setBackground(Color.WHITE);
 
-        // Encabezado lila como en el diseño
         DefaultTableCellRenderer encabezado = new DefaultTableCellRenderer() {
             @Override
             public java.awt.Component getTableCellRendererComponent(JTable t, Object v,
@@ -266,8 +245,6 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
         });
     }
 
-    // ============ DATOS ============
-
     private void recargar() {
         final java.awt.Component padre = this;
         new SwingWorker<List<VentaResumen>, Void>() {
@@ -308,8 +285,6 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
         return false;
     }
 
-    // ============ ELIMINAR (usa el panel de confirmación) ============
-
     private void eliminarVenta() {
         int fila = jTable1.getSelectedRow();
         if (fila < 0) {
@@ -318,7 +293,6 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
         }
         VentaResumen v = (VentaResumen) modelo.getValueAt(jTable1.convertRowIndexToModel(fila), 0);
 
-        // "Collar para perro +1 más  ·  Ana Torres  ·  Q 75.00"
         List<String> nombres = v.getNombresProductos();
         String producto = nombres.get(0) + (nombres.size() > 1 ? " +" + (nombres.size() - 1) + " más" : "");
         String detalle = producto + "  ·  " + v.getCliente().getNombre() + "  ·  Q " + v.getTotal().toPlainString();
@@ -327,7 +301,6 @@ public class PanelEliminarVenta extends javax.swing.JPanel {
             return;
         }
         try {
-            // true = las unidades de la venta vuelven al inventario de los productos
             dao.eliminarVenta(v.getIdsLineas(), true);
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -591,7 +591,6 @@ private void limpiar() {
         String detalle = seleccionado.getNombre() + "  ·  " + edad + "  ·  "
                 + seleccionado.getTipoCliente().getNombre();
 
-        // La confirmación ahora es el panel de eliminar (reemplaza el mensaje anterior)
         if (!PanelMensajeEliminar.confirmar(tblClientes1, "al cliente", detalle)) {
             return;
         }
@@ -613,7 +612,6 @@ private void limpiar() {
         return;
     }
     
-    // ✅ Obtener TODOS los datos de la fila, NO solo el nombre
     Cliente seleccionado = clientes.get(tblClientes1.convertRowIndexToModel(fila));
 
     VentanaEditarCliente ventana = new VentanaEditarCliente(seleccionado);
@@ -621,7 +619,7 @@ private void limpiar() {
     ventana.addWindowListener(new java.awt.event.WindowAdapter() {
         @Override
         public void windowClosed(java.awt.event.WindowEvent e) {
-            cargarClientes(); // ✅ Recarga todo al cerrar
+            cargarClientes(); 
         }
     });
 
@@ -638,7 +636,7 @@ private void limpiar() {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtNombre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombre1ActionPerformed
-        // TODO add your handling code here:
+      
     }//GEN-LAST:event_txtNombre1ActionPerformed
 
     /**
@@ -757,7 +755,6 @@ private void cargarClientes() {
     }.execute();
 }
 private void configurarBotonGuardar() {
-    // Solo efectos al pasar el cursor
     btnGuardar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
         
@@ -765,7 +762,6 @@ private void configurarBotonGuardar() {
 }
 
 private void configurarBotonCancelar() {
-    // Solo efectos al pasar el cursor
     btnCancelar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
     btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
 

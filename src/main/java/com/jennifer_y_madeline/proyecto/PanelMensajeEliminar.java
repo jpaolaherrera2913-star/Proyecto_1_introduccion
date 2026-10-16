@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.jennifer_y_madeline.proyecto;
 
 /**
@@ -10,9 +6,6 @@ package com.jennifer_y_madeline.proyecto;
  */
 public class PanelMensajeEliminar extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelMensajeEliminar
-     */
     private boolean confirmado = false;
     private javax.swing.JDialog dialogo;
 
@@ -26,14 +19,6 @@ public class PanelMensajeEliminar extends javax.swing.JPanel {
         btnCancelar.addActionListener(e -> cerrar());
     }
 
-    /**
-     * Muestra este panel como ventana de confirmación y espera la respuesta.
-     *
-     * @param padre    cualquier componente de la ventana desde donde se llama
-     * @param articulo lo que se va a eliminar, por ejemplo "la venta" o "al cliente"
-     * @param detalle  lo que se seleccionó, por ejemplo "Collar para perro  ·  A. Torres  ·  Q 75.00"
-     * @return true si el usuario presionó Eliminar
-     */
     public static boolean confirmar(java.awt.Component padre, String articulo, String detalle) {
         PanelMensajeEliminar panel = new PanelMensajeEliminar();
         panel.jLabel4.setText(" eliminar " + articulo + "?");
@@ -51,7 +36,6 @@ public class PanelMensajeEliminar extends javax.swing.JPanel {
         return panel.confirmado;
     }
 
-    /** Pone en el campo lo que se seleccionó; si es largo, reduce la letra para que quepa. */
     private void mostrarDetalle(String detalle) {
         jTextField1.setText(detalle);
         jTextField1.setToolTipText(detalle);

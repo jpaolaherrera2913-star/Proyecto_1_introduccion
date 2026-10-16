@@ -28,7 +28,6 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
     private List<Producto> productos = new ArrayList<>();
     private final List<Venta> detalle = new ArrayList<>();
 
-    // Contador y acumulador de toda la sesión (todas las ventas hechas desde que se abrió el sistema)
     private int ventasRegistradasSesion = 0;
     private BigDecimal acumuladoSesion = BigDecimal.ZERO;
 
@@ -48,7 +47,9 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
         txtCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
         txtProducto.addActionListener(e -> actualizarPrecio());
         jLabel26.setText("Descuento (0%)");
-        txtPrecio1.setEditable(false);   // Tipo de cliente: se rellena solo
+        txtPrecio1.setEditable(false); 
+        btnCancelar.setText(" ✖  Cancelar producto");
+        btnCancelar.setToolTipText("Seleccione un producto del resumen para quitarlo de la venta");
         cboCliente.addActionListener(e -> {
             actualizarTipoCliente();
             calcularTotalesGlobales();
@@ -65,13 +66,13 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
         });
     }
 
-    /** Devuelve la ventana principal (la que tiene el menú), o null si no está dentro de ella. */
+    
     private VentanaMenu menuPrincipal() {
         java.awt.Window w = javax.swing.SwingUtilities.getWindowAncestor(this);
         return (w instanceof VentanaMenu) ? (VentanaMenu) w : null;
     }
 
-    /** Rellena el campo "Tipo de cliente" según el cliente elegido (igual que el precio con el producto). */
+    
     private void actualizarTipoCliente() {
         int i = cboCliente.getSelectedIndex();
         txtPrecio1.setText(listaClientes != null && i >= 0 && i < listaClientes.size()
@@ -115,7 +116,8 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                 return false;
             }
         };
-        jTable1.setModel(modeloTablaResumen); // Enlazado a la JTable interna
+        jTable1.setModel(modeloTablaResumen); 
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void cargarClientesCombo() {
@@ -145,8 +147,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
     }
 
     private void calcularTotalesGlobales() {
-    // Ciclo For: subtotal de cada producto (precio x cantidad), se muestra en la tabla
-    // y se acumula en el subtotal general.
+   
     BigDecimal subtotal = BigDecimal.ZERO;
     modeloTablaResumen.setRowCount(0);
     for (int i = 0; i < detalle.size(); i++) {
@@ -160,7 +161,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
     }
     subtotal = subtotal.setScale(2, RoundingMode.HALF_UP);
 
-    // Descuento según tipo de cliente
+
     int porcentaje = 0;
     int indiceCliente = cboCliente.getSelectedIndex();
     if (listaClientes != null && indiceCliente >= 0 && indiceCliente < listaClientes.size()) {
@@ -172,7 +173,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
             .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
     BigDecimal totalConDescuento = subtotal.subtract(descuento);
 
-    // Recargo del 2% si el pago es con tarjeta
+  
     BigDecimal recargo = BigDecimal.ZERO;
     if (esTarjeta((MetodoPago) cboPago.getSelectedItem())) {
         recargo = totalConDescuento.multiply(new BigDecimal("0.02")).setScale(2, RoundingMode.HALF_UP);
@@ -778,8 +779,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Cantidad inv\u00e1lida o existencias insuficientes.");
                 return;
             }
-            // While: busca si el producto ya está en la venta para juntar las cantidades
-            // (así la tabla y la factura quedan con una sola línea por producto).
+            
             int pos = 0;
             boolean encontrado = false;
             while (pos < detalle.size() && !encontrado) {
@@ -819,24 +819,24 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
             return;
         }
 
-        // Cantidad de productos y de unidades de la venta (ciclo For con contador y acumulador)
+       
         int contadorProductos = detalle.size();
         int totalUnidades = 0;
         for (int i = 0; i < detalle.size(); i++) {
             totalUnidades += detalle.get(i).getCantidad();
         }
 
-        // Subtotal general, descuento y recargo
+     
         calcularTotalesGlobales();
         BigDecimal totalFinal = totalFinalActual;
 
-        // Efectivo: pedir monto recibido y calcular cambio
+        
         BigDecimal recibido = null;
         BigDecimal cambio = BigDecimal.ZERO;
         if (esEfectivo(pago)) {
             recibido = solicitarEfectivo(totalFinal);
-            if (recibido == null) return;           // canceló: no se guarda nada
-            cambio = recibido.subtract(totalFinal); // Cambio = dinero recibido - total de compra
+            if (recibido == null) return;           
+            cambio = recibido.subtract(totalFinal); 
         }
 
         Cliente cliente = listaClientes.get(indice);
@@ -853,11 +853,11 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
             return;
         }
 
-        // Contador y acumulador de la sesión
+       
         ventasRegistradasSesion++;
         acumuladoSesion = acumuladoSesion.add(totalFinal);
 
-        // Factura
+        
         VentanaFactura factura = new VentanaFactura(cliente, detalle,
                 subtotalActual, descuentoActual, porcentajeActual,
                 recargoActual, totalFinal,
@@ -873,9 +873,9 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
         dialogoFactura.pack();
         dialogoFactura.setResizable(false);
         dialogoFactura.setLocationRelativeTo(this);
-        dialogoFactura.setVisible(true);   // espera aquí hasta que se cierre la factura
+        dialogoFactura.setVisible(true);   
 
-        // Limpiar y regresar al menú principal (Inicio)
+       
         detalle.clear();
         modeloTablaResumen.setRowCount(0);
         calcularTotalesGlobales();
@@ -886,13 +886,35 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRegistrarVentaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        
+        int fila = jTable1.getSelectedRow();
+        if (fila < 0 || fila >= detalle.size()) {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto de la tabla.");
+            return;
+        }
+        Venta linea = detalle.get(fila);
 
-    detalle.clear();
-    modeloTablaResumen.setRowCount(0);
-    actualizarPrecio();
-    if (txtCantidad != null) txtCantidad.setValue(1);
-    calcularTotalesGlobales(); // deja todo en Q 0.00
+        int cuantas = 1;
+        if (linea.getCantidad() >= 2) {
+            Integer respuesta = solicitarCuantasUnidades(linea);
+            if (respuesta == null) return;     
+            cuantas = respuesta;
+        }
 
+        BigDecimal montoQuitado = linea.getPrecioUnitario().multiply(BigDecimal.valueOf(cuantas))
+                .setScale(2, RoundingMode.HALF_UP);
+        String resumen = linea.getProducto().getNombre() + "  ·  " + cuantas
+                + (cuantas == 1 ? " unidad" : " unidades") + "  ·  Q " + montoQuitado.toPlainString();
+        if (!PanelMensajeEliminar.confirmar(jTable1, "el producto", resumen)) {
+            return;
+        }
+
+        if (cuantas >= linea.getCantidad()) {
+            detalle.remove(fila);                                   
+        } else {
+            linea.setCantidad(linea.getCantidad() - cuantas);       
+        }
+        calcularTotalesGlobales();    
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtPrecio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecio1ActionPerformed
@@ -954,7 +976,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
     private javax.swing.JTextField txtPrecio1;
     private javax.swing.JComboBox<String> txtProducto;
     // End of variables declaration//GEN-END:variables
-/** Regla 4.4: porcentaje de descuento según tipo de cliente y monto de compra. */
+
 private int obtenerPorcentajeDescuento(String tipoCliente, BigDecimal monto) {
     String tipo = tipoCliente == null ? "" : tipoCliente.trim().toLowerCase();
     if (tipo.contains("corporativo")) {
@@ -973,7 +995,7 @@ private int obtenerPorcentajeDescuento(String tipoCliente, BigDecimal monto) {
     return 0;
 }
 
-    /** Pide el dinero recibido. Do While: repite hasta que sea un número >= total. Devuelve null si cancela. */
+  
     private BigDecimal solicitarEfectivo(BigDecimal total) {
         BigDecimal recibido = null;
         boolean valido;
@@ -997,6 +1019,31 @@ private int obtenerPorcentajeDescuento(String tipoCliente, BigDecimal monto) {
             }
         } while (!valido);
         return recibido;
+    }
+
+
+    private Integer solicitarCuantasUnidades(Venta linea) {
+        int maximo = linea.getCantidad();
+        int cantidad = 0;
+        boolean valido;
+        do {
+            String entrada = JOptionPane.showInputDialog(this,
+                    linea.getProducto().getNombre() + " lleva " + maximo + " unidades.\n¿Cuántas quieres quitar? (1 a " + maximo + ")",
+                    "Cancelar producto", JOptionPane.QUESTION_MESSAGE);
+            if (entrada == null) return null;       
+            valido = false;
+            try {
+                cantidad = Integer.parseInt(entrada.trim());
+                if (cantidad >= 1 && cantidad <= maximo) {
+                    valido = true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ingrese un número entre 1 y " + maximo + ".");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Ingrese un número entero válido.");
+            }
+        } while (!valido);
+        return cantidad;
     }
 
     private boolean esEfectivo(MetodoPago pago) {

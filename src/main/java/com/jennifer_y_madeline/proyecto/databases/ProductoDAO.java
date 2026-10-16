@@ -55,7 +55,6 @@ public class ProductoDAO {
         }
     }
 
-    /** Suma unidades al stock de un producto y devuelve el nuevo total. */
     public int agregarStock(Integer id, int cantidad) {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad a agregar debe ser mayor a 0.");
