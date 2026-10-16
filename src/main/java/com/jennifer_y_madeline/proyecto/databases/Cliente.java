@@ -26,7 +26,6 @@ public class Cliente {
     @Column(name = "edad", columnDefinition = "TINYINT UNSIGNED")
     private Integer edad;
 
-    // EAGER: en una app Swing evita LazyInitializationException al mostrar datos en tablas/combos
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "tipo_cliente_id", nullable = false)
     private TipoCliente tipoCliente;

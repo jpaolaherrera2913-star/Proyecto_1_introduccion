@@ -4,10 +4,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-/**
- * Crea una sola EntityManagerFactory para toda la aplicación.
- * Uso: EntityManager em = JPAUtil.getEntityManager(); ... em.close();
- */
 public final class JPAUtil {
 
     private static final EntityManagerFactory EMF =
@@ -20,7 +16,6 @@ public final class JPAUtil {
         return EMF.createEntityManager();
     }
 
-    /** Llamar al cerrar la aplicación (por ejemplo, en windowClosing del JFrame principal). */
     public static void cerrar() {
         if (EMF.isOpen()) {
             EMF.close();
