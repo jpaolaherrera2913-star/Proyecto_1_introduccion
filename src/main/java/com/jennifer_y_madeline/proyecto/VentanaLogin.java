@@ -19,7 +19,14 @@ public class VentanaLogin extends javax.swing.JFrame {
      * Creates new form VentanaLogin
      */
         public VentanaLogin() {
+        // Fondo decorativo: se pone ANTES de initComponents para que el layout se aplique sobre él
+        FondoLogin fondo = new FondoLogin();
+        fondo.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 0, 25, 30));
+        setContentPane(fondo);
         initComponents();
+        fondo.setTarjeta(jPanel1);
+        Imagenes.ponerLogo(logo, 200);
+        pack();
         configurarBotonIngresar();
        
         final java.awt.Component[] orden = { txtUsuario, txtClave, btnIngresar };
@@ -165,6 +172,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
         lblMensaje = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        logo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Estrella Peluda - Inicio de Sesión");
@@ -280,17 +288,25 @@ addWindowListener(new java.awt.event.WindowAdapter() {
                 .addGap(104, 104, 104))
         );
 
+        logo.setText("logo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 278, Short.MAX_VALUE)
+                .addGap(60, 60, 60)
+                .addComponent(logo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(logo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -377,6 +393,7 @@ addWindowListener(new java.awt.event.WindowAdapter() {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblIntentos;
     private javax.swing.JLabel lblMensaje;
+    private javax.swing.JLabel logo;
     private javax.swing.JPasswordField txtClave;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables

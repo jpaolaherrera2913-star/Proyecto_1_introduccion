@@ -21,7 +21,7 @@ public class Proyecto {
         if (menu.opcion == 1) {
             sistemaActivo = iniciarSesion();
         } else {
-            VentanaMensaje vSalida = new VentanaMensaje("Cerrando el sistema...", true);
+            VentanaMensaje vSalida = new VentanaMensaje("  ↩️     Saliendo del sistema... \n Gracias por usar Estrella Peluda.", true);
             vSalida.setVisible(true);
             long fin = System.currentTimeMillis() + 5000;
             while (vSalida.isVisible() && System.currentTimeMillis() < fin) {
@@ -71,7 +71,7 @@ public class Proyecto {
             if (login.usuarioIngresado.equals(usuarioCorrecto) &&
                 login.claveIngresada.equals(claveCorrecta)) {
                 
-                VentanaMensaje vBien = new VentanaMensaje("¡Acceso concedido!");
+                VentanaMensaje vBien = new VentanaMensaje("  ✅    Acceso concedido \n ¡Bienvenido al sistema! ");
                 vBien.setVisible(true);
                 try { Thread.sleep(2000); } catch (Exception e) {}
                 vBien.dispose();
@@ -81,7 +81,7 @@ public class Proyecto {
             intentos++;
             
             if (intentos >= MAX_INTENTOS) {
-                VentanaMensaje vAgotado = new VentanaMensaje("️Se agotaron los 3 intentos.\n Saliendo del sistema...");
+                VentanaMensaje vAgotado = new VentanaMensaje("️  ❕    Se agotaron los 3 intentos.\n El sistema se bloqueara por seguridad.");
                 vAgotado.setVisible(true);
                 try { Thread.sleep(2000); } catch (Exception e) {}
                 vAgotado.dispose();

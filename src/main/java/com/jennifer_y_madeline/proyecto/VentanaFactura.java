@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.jennifer_y_madeline.proyecto;
 
 /**
@@ -15,29 +11,100 @@ public class VentanaFactura extends javax.swing.JPanel {
      */
     public VentanaFactura() {
         initComponents();
+        Imagenes.ponerLogo(jLabel1, 70);
     }
 
-    public VentanaFactura(com.jennifer_y_madeline.proyecto.databases.Cliente cliente,
-            java.util.List<com.jennifer_y_madeline.proyecto.databases.Venta> ventas) {
-        initComponents();
-        setLayout(new java.awt.BorderLayout());
-        javax.swing.JTextArea texto = new javax.swing.JTextArea(18, 42);
-        texto.setEditable(false);
-        texto.setBackground(new java.awt.Color(248, 246, 252));
-        texto.setForeground(new java.awt.Color(79, 57, 122));
-        texto.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        StringBuilder recibo = new StringBuilder("Estrella Peluda - Comprobante de venta\n\n");
-        recibo.append("Cliente: ").append(cliente.getNombre()).append("\nPago: ").append(ventas.get(0).getMetodoPago().getNombre()).append("\n");
-        recibo.append("Fecha: ").append(ventas.get(0).getFecha()).append("\n\n");
-        java.math.BigDecimal total = java.math.BigDecimal.ZERO;
-        for (var venta : ventas) {
-            java.math.BigDecimal subtotal = venta.getPrecioUnitario().multiply(java.math.BigDecimal.valueOf(venta.getCantidad()));
-            recibo.append(venta.getCantidad()).append(" x ").append(venta.getProducto().getNombre()).append("  Q ").append(subtotal).append("\n");
-            total = total.add(subtotal);
+ public VentanaFactura(com.jennifer_y_madeline.proyecto.databases.Cliente cliente,
+        java.util.List<com.jennifer_y_madeline.proyecto.databases.Venta> ventas,
+        java.math.BigDecimal subtotal, java.math.BigDecimal descuento, int porcentaje,
+        java.math.BigDecimal recargo, java.math.BigDecimal total,
+        com.jennifer_y_madeline.proyecto.databases.MetodoPago pago,
+        java.math.BigDecimal recibido, java.math.BigDecimal cambio) {
+    initComponents();
+    Imagenes.ponerLogo(jLabel1, 70);
+
+    javax.swing.JTextField[] campos = {lblClienteValor, lblTipoValor,
+        lblSubtotalValor, lblDescuentoValor, lblRecargoValor, lblCambioValor,
+        lblTotal, lblFormaPagoValor};
+    for (javax.swing.JTextField c : campos) {
+        c.setEditable(false);
+    }
+
+    lblClienteValor.setText(cliente.getNombre());
+    lblTipoValor.setText(cliente.getTipoCliente().getNombre());
+
+    // Un producto por línea; si el nombre es largo se parte en varias líneas para que
+    // nunca se corte, y la factura crece según la cantidad de productos.
+    java.awt.FontMetrics fm = lblProductosValor.getFontMetrics(lblProductosValor.getFont());
+    StringBuilder productos = new StringBuilder("<html>");
+    for (var venta : ventas) {
+        String linea = venta.getCantidad() + " x " + venta.getProducto().getNombre();
+        for (String parte : partirTexto(linea, fm, 172)) {
+            if (productos.length() > 6) productos.append("<br>");
+            productos.append(escaparHtml(parte));
         }
-        texto.setText(recibo.append("\nTotal: Q ").append(total).toString());
-        texto.setCaretPosition(0);
-        add(new javax.swing.JScrollPane(texto), java.awt.BorderLayout.CENTER);
+    }
+    productos.append("</html>");
+    lblProductosValor.setText(productos.toString());
+
+    lblSubtotalValor.setText("Q " + subtotal.toPlainString());
+    lblDescuentoValor.setText("- Q " + descuento.toPlainString() + " (" + porcentaje + "%)");
+    // Recargo del 2% (solo con tarjeta): "Recargo (2%)" y el monto a la par
+    if (recargo.signum() > 0) {
+        lblRecargo.setText("Recargo (2%)");
+        lblRecargoValor.setText("Q " + recargo.toPlainString());
+    } else {
+        lblRecargo.setText("Recargo");
+        lblRecargoValor.setText("No aplica");
+    }
+    lblTotal.setText("Q " + total.toPlainString());
+
+    String textoPago = pago.toString();
+    if (recibido != null) {
+        textoPago += " (Recibido: Q " + recibido.toPlainString() + ")";
+        lblCambioValor.setText("Q " + cambio.toPlainString());
+    } else {
+        lblCambioValor.setText("No aplica");
+    }
+    lblFormaPagoValor.setText(textoPago);
+    lblFormaPagoValor.setToolTipText(textoPago);
+    lblFormaPagoValor.setCaretPosition(0);
+}
+
+    /** Parte un texto en líneas que no pasen del ancho indicado (en píxeles). */
+    private static java.util.List<String> partirTexto(String texto, java.awt.FontMetrics fm, int ancho) {
+        java.util.List<String> lineas = new java.util.ArrayList<>();
+        StringBuilder actual = new StringBuilder();
+        for (String palabra : texto.split(" ")) {
+            while (fm.stringWidth(palabra) > ancho) {        // palabra más larga que la línea
+                int corte = palabra.length() - 1;
+                while (corte > 1 && fm.stringWidth(palabra.substring(0, corte)) > ancho) corte--;
+                if (actual.length() > 0) { lineas.add(actual.toString()); actual.setLength(0); }
+                lineas.add(palabra.substring(0, corte));
+                palabra = palabra.substring(corte);
+            }
+            String prueba = actual.length() == 0 ? palabra : actual + " " + palabra;
+            if (fm.stringWidth(prueba) > ancho) {
+                lineas.add(actual.toString());
+                actual = new StringBuilder(palabra);
+            } else {
+                actual = new StringBuilder(prueba);
+            }
+        }
+        if (actual.length() > 0) lineas.add(actual.toString());
+        return lineas;
+    }
+
+    private static String escaparHtml(String texto) {
+        return texto == null ? "" : texto.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+    }
+
+    /** Cierra la ventana que contiene la factura. Úsalo en el botón Aceptar: cerrar(); */
+    public void cerrar() {
+        java.awt.Window ventana = javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (ventana != null) {
+            ventana.dispose();
+        }
     }
 
     /**
@@ -49,19 +116,456 @@ public class VentanaFactura extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlFactura = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        pnlDatos = new javax.swing.JPanel();
+        lblCliente = new javax.swing.JLabel();
+        lblTipoValor = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        lblTipo = new javax.swing.JLabel();
+        lblProductosValor = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        lblProductos = new javax.swing.JLabel();
+        lblClienteValor = new javax.swing.JTextField();
+        lblSubtotal = new javax.swing.JLabel();
+        lblDescuentoValor = new javax.swing.JTextField();
+        lblDescuento = new javax.swing.JLabel();
+        lblCambioValor = new javax.swing.JTextField();
+        lblRecargo = new javax.swing.JLabel();
+        lblSubtotalValor = new javax.swing.JTextField();
+        pnlTotal = new javax.swing.JPanel();
+        lblTituloTotal = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        pnlPago = new javax.swing.JPanel();
+        jTextField8 = new javax.swing.JTextField();
+        lblFormaPago = new javax.swing.JLabel();
+        lblFormaPagoValor = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        lblCambio = new javax.swing.JLabel();
+        lblRecargoValor = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+
+        setToolTipText("Estrella Peluda - Factura");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        pnlFactura.setBackground(new java.awt.Color(255, 251, 250));
+        pnlFactura.setToolTipText("");
+
+        jLabel1.setText("LOGO");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(116, 96, 153));
+        jLabel3.setText("RESUMEN DE COMPRA");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(175, 175, 175));
+        jLabel4.setText("ESTRELLA PELUDA - ACCESORIO PARA MASCOTAS");
+
+        pnlDatos.setBackground(new java.awt.Color(248, 246, 252));
+        pnlDatos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblCliente.setForeground(new java.awt.Color(140, 135, 135));
+        lblCliente.setText("Cliente");
+
+        lblTipoValor.setBackground(new java.awt.Color(248, 246, 252));
+        lblTipoValor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTipoValor.setForeground(new java.awt.Color(79, 57, 122));
+        lblTipoValor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        lblTipoValor.setBorder(null);
+
+        jSeparator1.setForeground(new java.awt.Color(183, 169, 209));
+
+        lblTipo.setForeground(new java.awt.Color(140, 135, 135));
+        lblTipo.setText("Tipo de cliente");
+
+        lblProductosValor.setBackground(new java.awt.Color(248, 246, 252));
+        lblProductosValor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblProductosValor.setForeground(new java.awt.Color(79, 57, 122));
+        lblProductosValor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblProductosValor.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        jSeparator2.setForeground(new java.awt.Color(183, 169, 209));
+
+        lblProductos.setForeground(new java.awt.Color(140, 135, 135));
+        lblProductos.setText("Productos comprados");
+
+        lblClienteValor.setBackground(new java.awt.Color(248, 246, 252));
+        lblClienteValor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblClienteValor.setForeground(new java.awt.Color(79, 57, 122));
+        lblClienteValor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        lblClienteValor.setBorder(null);
+        lblClienteValor.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+
+        javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
+        pnlDatos.setLayout(pnlDatosLayout);
+        pnlDatosLayout.setHorizontalGroup(
+            pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosLayout.createSequentialGroup()
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlDatosLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(lblTipo)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblTipoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDatosLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(lblCliente)
+                        .addGap(27, 27, 27)
+                        .addComponent(lblClienteValor, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDatosLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(lblProductos)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblProductosValor, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDatosLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(8, Short.MAX_VALUE))
+            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+        pnlDatosLayout.setVerticalGroup(
+            pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCliente)
+                    .addComponent(lblClienteValor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTipo)
+                    .addComponent(lblTipoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblProductosValor)
+                    .addComponent(lblProductos))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        lblSubtotal.setForeground(new java.awt.Color(140, 135, 135));
+        lblSubtotal.setText("Subtotal");
+
+        lblDescuentoValor.setBackground(new java.awt.Color(255, 251, 250));
+        lblDescuentoValor.setForeground(new java.awt.Color(0, 153, 51));
+        lblDescuentoValor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        lblDescuentoValor.setBorder(null);
+
+        lblDescuento.setForeground(new java.awt.Color(140, 135, 135));
+        lblDescuento.setText("Descuento");
+
+        lblCambioValor.setBackground(new java.awt.Color(255, 251, 250));
+        lblCambioValor.setForeground(new java.awt.Color(79, 57, 122));
+        lblCambioValor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        lblCambioValor.setBorder(null);
+
+        lblRecargo.setForeground(new java.awt.Color(140, 135, 135));
+        lblRecargo.setText("Recargo (2%)");
+
+        lblSubtotalValor.setBackground(new java.awt.Color(255, 251, 250));
+        lblSubtotalValor.setForeground(new java.awt.Color(79, 57, 122));
+        lblSubtotalValor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        lblSubtotalValor.setBorder(null);
+
+        pnlTotal.setBackground(new java.awt.Color(116, 96, 153));
+
+        lblTituloTotal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTituloTotal.setForeground(new java.awt.Color(245, 243, 248));
+        lblTituloTotal.setText("TOTAL A PAGAR");
+
+        lblTotal.setBackground(new java.awt.Color(116, 96, 153));
+        lblTotal.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
+        lblTotal.setForeground(new java.awt.Color(255, 255, 255));
+        lblTotal.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        lblTotal.setBorder(null);
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.BOLD, 12)
+
+        );
+        jLabel14.setForeground(new java.awt.Color(255, 204, 102));
+        jLabel14.setText("✅");
+
+        javax.swing.GroupLayout pnlTotalLayout = new javax.swing.GroupLayout(pnlTotal);
+        pnlTotal.setLayout(pnlTotalLayout);
+        pnlTotalLayout.setHorizontalGroup(
+            pnlTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTotalLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(pnlTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTotalLayout.createSequentialGroup()
+                        .addComponent(lblTituloTotal)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlTotalLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15))))
+        );
+        pnlTotalLayout.setVerticalGroup(
+            pnlTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTotalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTituloTotal)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        pnlPago.setBackground(new java.awt.Color(255, 251, 250));
+        pnlPago.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+
+        jTextField8.setBackground(new java.awt.Color(229, 222, 242));
+        jTextField8.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.BOLD, 14)
+        );
+        jTextField8.setForeground(new java.awt.Color(116, 96, 153));
+        jTextField8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField8.setText("🏦");
+        jTextField8.setBorder(null);
+
+        lblFormaPago.setForeground(new java.awt.Color(140, 135, 135));
+        lblFormaPago.setText("Forma de pago");
+
+        lblFormaPagoValor.setBackground(new java.awt.Color(248, 246, 252));
+        lblFormaPagoValor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblFormaPagoValor.setForeground(new java.awt.Color(79, 57, 122));
+        lblFormaPagoValor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        lblFormaPagoValor.setBorder(null);
+        lblFormaPagoValor.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.BOLD, 12)
+
+        );
+        jLabel16.setForeground(new java.awt.Color(0, 153, 51));
+        jLabel16.setText("✅");
+
+        javax.swing.GroupLayout pnlPagoLayout = new javax.swing.GroupLayout(pnlPago);
+        pnlPago.setLayout(pnlPagoLayout);
+        pnlPagoLayout.setHorizontalGroup(
+            pnlPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPagoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(pnlPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFormaPagoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFormaPago))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
+        );
+        pnlPagoLayout.setVerticalGroup(
+            pnlPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPagoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlPagoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlPagoLayout.createSequentialGroup()
+                        .addComponent(lblFormaPago)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(lblFormaPagoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField8))
+                .addContainerGap())
+            .addGroup(pnlPagoLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jSeparator3.setForeground(new java.awt.Color(183, 169, 209));
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(116, 96, 153));
+        jLabel18.setText("¡Gracias por su compra!");
+
+        jLabel19.setForeground(new java.awt.Color(140, 135, 135));
+        jLabel19.setText("Una compra llena de amor para tus peluditos   🐾");
+        jLabel19.setToolTipText("");
+
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(175, 175, 175));
+        jLabel20.setText("Detalle de la venta");
+
+        lblCambio.setForeground(new java.awt.Color(140, 135, 135));
+        lblCambio.setText("Cambio");
+
+        lblRecargoValor.setBackground(new java.awt.Color(255, 251, 250));
+        lblRecargoValor.setForeground(new java.awt.Color(79, 57, 122));
+        lblRecargoValor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        lblRecargoValor.setBorder(null);
+
+        jButton1.setBackground(new java.awt.Color(225, 215, 240));
+        jButton1.setForeground(new java.awt.Color(79, 57, 122));
+        jButton1.setText("Aceptar");
+        jButton1.setBorder(null);
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        javax.swing.GroupLayout pnlFacturaLayout = new javax.swing.GroupLayout(pnlFactura);
+        pnlFactura.setLayout(pnlFacturaLayout);
+        pnlFacturaLayout.setHorizontalGroup(
+            pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlFacturaLayout.createSequentialGroup()
+                .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(pnlFacturaLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(pnlTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlFacturaLayout.createSequentialGroup()
+                            .addGap(17, 17, 17)
+                            .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(pnlFacturaLayout.createSequentialGroup()
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(pnlFacturaLayout.createSequentialGroup()
+                                            .addGap(60, 60, 60)
+                                            .addComponent(jLabel20))
+                                        .addGroup(pnlFacturaLayout.createSequentialGroup()
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel3))))
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(pnlDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(pnlFacturaLayout.createSequentialGroup()
+                                    .addGap(24, 24, 24)
+                                    .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblDescuento)
+                                        .addComponent(lblSubtotal)
+                                        .addComponent(lblRecargo)
+                                        .addComponent(lblCambio))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lblSubtotalValor, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblDescuentoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblRecargoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblCambioValor, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addGap(0, 21, Short.MAX_VALUE))
+            .addGroup(pnlFacturaLayout.createSequentialGroup()
+                .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlFacturaLayout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel19))
+                            .addGroup(pnlFacturaLayout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(jLabel18))))
+                    .addGroup(pnlFacturaLayout.createSequentialGroup()
+                        .addGap(168, 168, 168)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlFacturaLayout.setVerticalGroup(
+            pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlFacturaLayout.createSequentialGroup()
+                .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlFacturaLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlFacturaLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel20)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlFacturaLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblDescuento)
+                            .addComponent(lblDescuentoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblSubtotalValor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblSubtotal)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRecargo)
+                    .addComponent(lblRecargoValor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCambio)
+                    .addComponent(lblCambioValor, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 472, Short.MAX_VALUE)
+            .addComponent(pnlFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 432, Short.MAX_VALUE)
+            .addComponent(pnlFactura, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cerrar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JLabel lblCambio;
+    private javax.swing.JTextField lblCambioValor;
+    private javax.swing.JLabel lblCliente;
+    private javax.swing.JTextField lblClienteValor;
+    private javax.swing.JLabel lblDescuento;
+    private javax.swing.JTextField lblDescuentoValor;
+    private javax.swing.JLabel lblFormaPago;
+    private javax.swing.JTextField lblFormaPagoValor;
+    private javax.swing.JLabel lblProductos;
+    private javax.swing.JLabel lblProductosValor;
+    private javax.swing.JLabel lblRecargo;
+    private javax.swing.JTextField lblRecargoValor;
+    private javax.swing.JLabel lblSubtotal;
+    private javax.swing.JTextField lblSubtotalValor;
+    private javax.swing.JLabel lblTipo;
+    private javax.swing.JTextField lblTipoValor;
+    private javax.swing.JLabel lblTituloTotal;
+    private javax.swing.JTextField lblTotal;
+    private javax.swing.JPanel pnlDatos;
+    private javax.swing.JPanel pnlFactura;
+    private javax.swing.JPanel pnlPago;
+    private javax.swing.JPanel pnlTotal;
     // End of variables declaration//GEN-END:variables
 }

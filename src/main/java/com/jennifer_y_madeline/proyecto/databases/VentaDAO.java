@@ -2,7 +2,10 @@ package com.jennifer_y_madeline.proyecto.databases;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VentaDAO {
     public List<MetodoPago> listarMetodos() {
@@ -56,6 +59,78 @@ public class VentaDAO {
         } catch (RuntimeException ex) {
             if (em.getTransaction().isActive()) em.getTransaction().rollback();
             throw ex;
+        } finally {
+            em.close();
+        }
+    }
+
+    /** Ventas completas (las líneas de una misma venta agrupadas), de la más reciente a la más antigua. */
+    public List<VentaResumen> listarResumenes() {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            List<Venta> lineas = em.createQuery(
+                    "SELECT v FROM Venta v ORDER BY v.fecha DESC, v.id ASC", Venta.class).getResultList();
+            Map<String, VentaResumen> grupos = new LinkedHashMap<>();
+            for (Venta v : lineas) {
+                String clave = v.getCliente().getId() + "|" + v.getFecha() + "|" + v.getMetodoPago().getId();
+                grupos.computeIfAbsent(clave, k -> new VentaResumen()).agregar(v);
+            }
+            return new ArrayList<>(grupos.values());
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Elimina una venta completa (todas sus líneas).
+     * Si devolverStock es true, las unidades vuelven al inventario de cada producto.
+     */
+    public void eliminarVenta(List<Integer> idsLineas, boolean devolverStock) {
+        if (idsLineas == null || idsLineas.isEmpty()) {
+            throw new IllegalArgumentException("No hay venta para eliminar.");
+        }
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            for (Integer id : idsLineas) {
+                Venta v = em.find(Venta.class, id);
+                if (v == null) continue;
+                if (devolverStock) {
+                    Producto p = em.find(Producto.class, v.getProducto().getId(), LockModeType.PESSIMISTIC_WRITE);
+                    if (p != null) {
+                        p.setCantidad(p.getCantidad() + v.getCantidad());
+                    }
+                }
+                em.remove(v);
+            }
+            em.getTransaction().commit();
+        } catch (RuntimeException ex) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw ex;
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Cuenta las ventas de hoy. Igual que en la lista de ventas, las líneas de una misma
+     * venta (mismo cliente, fecha y método de pago) cuentan como UNA sola venta.
+     */
+    public Long contarVentasDelDia() {
+        java.time.LocalDateTime inicio = java.time.LocalDate.now().atStartOfDay();
+        java.time.LocalDateTime fin = inicio.plusDays(1);
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            List<Venta> lineas = em.createQuery(
+                    "SELECT v FROM Venta v WHERE v.fecha >= :inicio AND v.fecha < :fin", Venta.class)
+                    .setParameter("inicio", inicio)
+                    .setParameter("fin", fin)
+                    .getResultList();
+            java.util.Set<String> ventas = new java.util.HashSet<>();
+            for (Venta v : lineas) {
+                ventas.add(v.getCliente().getId() + "|" + v.getFecha() + "|" + v.getMetodoPago().getId());
+            }
+            return (long) ventas.size();
         } finally {
             em.close();
         }

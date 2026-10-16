@@ -2,6 +2,7 @@ package com.jennifer_y_madeline.proyecto;
 
 import com.jennifer_y_madeline.proyecto.databases.Cliente;
 import com.jennifer_y_madeline.proyecto.databases.ClienteDAO;
+import com.jennifer_y_madeline.proyecto.databases.VentaDAO;
 import java.util.List;
 import javax.swing.SwingWorker;
 
@@ -11,6 +12,7 @@ import javax.swing.SwingWorker;
  */
 public class PanelInicio extends javax.swing.JPanel {
     private final ClienteDAO dao = new ClienteDAO(); // ✅ Agrega esto
+    private final VentaDAO ventaDAO = new VentaDAO();
     
 
     /**
@@ -18,7 +20,33 @@ public class PanelInicio extends javax.swing.JPanel {
      */
     public PanelInicio() {
         initComponents();
+        Imagenes.ponerPerroYGato(jLabel3, 110);
         cargarTotalClientes();
+        recargarVentasDelDia();
+    }
+
+    /** Muestra en la tarjeta "Ventas del Día" cuántas ventas van hoy. */
+    public void actualizarVentas(long cantidad) {
+        lblNumVentas.setText(String.valueOf(cantidad));
+    }
+
+    /** Vuelve a consultar la base de datos y actualiza el número de ventas del día. */
+    public void recargarVentasDelDia() {
+        new SwingWorker<Long, Void>() {
+            @Override
+            protected Long doInBackground() {
+                return ventaDAO.contarVentasDelDia();
+            }
+            @Override
+            protected void done() {
+                try {
+                    actualizarVentas(get());
+                } catch (Exception ex) {
+                    ex.printStackTrace();   // el error real aparece en la consola de NetBeans
+                    actualizarVentas(0); // Si hay error, muestra 0
+                }
+            }
+        }.execute();
     }
         public void actualizarClientes(int cantidad) {
         lblNumClientes.setText(String.valueOf(cantidad));
@@ -54,14 +82,16 @@ public class PanelInicio extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
         lblNumClientes = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        lblNumVentas = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(815, 607));
         setPreferredSize(new java.awt.Dimension(815, 607));
@@ -78,9 +108,9 @@ public class PanelInicio extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Total de Clientes");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.BOLD, 40));
-        jLabel3.setForeground(new java.awt.Color(116, 96, 153));
-        jLabel3.setText("👥");
+        jLabel34.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.BOLD, 40));
+        jLabel34.setForeground(new java.awt.Color(116, 96, 153));
+        jLabel34.setText("👥");
 
         lblNumClientes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblNumClientes.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -91,7 +121,7 @@ public class PanelInicio extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
@@ -106,7 +136,7 @@ public class PanelInicio extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,6 +156,8 @@ public class PanelInicio extends javax.swing.JPanel {
         jLabel5.setForeground(new java.awt.Color(116, 96, 153));
         jLabel5.setText("  💵");
 
+        lblNumVentas.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -134,7 +166,9 @@ public class PanelInicio extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNumVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
         jPanel3Layout.setVerticalGroup(
@@ -144,6 +178,8 @@ public class PanelInicio extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNumVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -182,6 +218,8 @@ public class PanelInicio extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jLabel3.setText("imagen perroygato");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -196,7 +234,11 @@ public class PanelInicio extends javax.swing.JPanel {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addContainerGap(193, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(26, 26, 26))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,10 +248,11 @@ public class PanelInicio extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(453, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(31, 31, 31))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -229,6 +272,7 @@ public class PanelInicio extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -238,5 +282,6 @@ public class PanelInicio extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblNumClientes;
+    private javax.swing.JLabel lblNumVentas;
     // End of variables declaration//GEN-END:variables
 }

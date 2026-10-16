@@ -19,6 +19,7 @@ public class PanelRegistroClientes extends javax.swing.JFrame {
 
     public PanelRegistroClientes() {
         initComponents();
+        Imagenes.ponerPerroYGato(jLabel3, 100);
         jLabel11.setVisible(false);
         cargarCombos();
          configurarValidacionEnVivo();
@@ -259,6 +260,7 @@ private void limpiar() {
         jLabel14 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lblTitulo1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -299,28 +301,27 @@ private void limpiar() {
 
         tblClientes1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3"
             }
         ));
         jScrollPane1.setViewportView(tblClientes1);
 
-        actualizarNombre.setBackground(new java.awt.Color(253, 252, 253));
-        actualizarNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        actualizarNombre.setText("Editar");
-        actualizarNombre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
+        actualizarNombre.setBackground(new java.awt.Color(239, 235, 245));
+        actualizarNombre.setForeground(new java.awt.Color(55, 38, 88));
+        actualizarNombre.setText("🖊️  ️  Editar");
+        actualizarNombre.setBorder(null);
         actualizarNombre.addActionListener(this::actualizarNombreActionPerformed);
 
-        eliminarPorNombre1.setBackground(new java.awt.Color(79, 57, 122));
-        eliminarPorNombre1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        eliminarPorNombre1.setForeground(new java.awt.Color(255, 255, 255));
-        eliminarPorNombre1.setText("Eliminar");
-        eliminarPorNombre1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
+        eliminarPorNombre1.setBackground(new java.awt.Color(253, 203, 203));
+        eliminarPorNombre1.setForeground(new java.awt.Color(143, 12, 12));
+        eliminarPorNombre1.setText("🚮️   Eliminar");
+        eliminarPorNombre1.setBorder(null);
         eliminarPorNombre1.addActionListener(this::eliminarPorNombre1ActionPerformed);
 
         jPanel4.setBackground(new java.awt.Color(248, 246, 252));
@@ -349,8 +350,6 @@ private void limpiar() {
         lblTipoMsg.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         lblTipoMsg.setForeground(new java.awt.Color(204, 204, 204));
 
-
-
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Tipo de cliente");
 
@@ -376,22 +375,19 @@ private void limpiar() {
         jLabel1.setText("Nuevo Cliente");
 
         btnGuardar.setBackground(new java.awt.Color(79, 57, 122));
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
-        btnGuardar.setText("Guardar");
+        btnGuardar.setText(" 💾  Guardar");
         btnGuardar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
         btnGuardar.setFocusPainted(false);
         btnGuardar.setOpaque(true);
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
-        btnCancelar.setBackground(new java.awt.Color(253, 252, 253));
-        btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnCancelar.setForeground(new java.awt.Color(55, 38, 88));
-        btnCancelar.setText("Cancelar");
-        btnCancelar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(116, 96, 153), 2, true));
+        btnCancelar.setBackground(new java.awt.Color(253, 203, 203));
+        btnCancelar.setForeground(new java.awt.Color(143, 12, 12));
+        btnCancelar.setText(" ✖  Cancelar");
+        btnCancelar.setBorder(null);
         btnCancelar.setFocusPainted(false);
         btnCancelar.addActionListener(this::btnCancelarActionPerformed);
-
 
         lblTitulo3.setBackground(new java.awt.Color(0, 0, 0));
         lblTitulo3.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.BOLD, 10)
@@ -426,17 +422,17 @@ private void limpiar() {
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(lblEdadMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtTipo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblTipoMsg, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(27, 27, 27)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                             .addComponent(lblTitulo4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblTipoMsg, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel4Layout.createSequentialGroup()
                     .addGap(39, 39, 39)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -487,10 +483,8 @@ private void limpiar() {
             .addGap(7, 7, 7)
             .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(lblTipoMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+            .addComponent(lblTipoMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -510,29 +504,35 @@ private void limpiar() {
     lblTitulo1.setForeground(new java.awt.Color(79, 57, 122));
     lblTitulo1.setText("  👤");
 
+    jLabel3.setText("imagen perroygato");
+
     javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
     jPanel3.setLayout(jPanel3Layout);
     jPanel3Layout.setHorizontalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel3Layout.createSequentialGroup()
             .addGap(30, 30, 30)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(553, 553, 553)
-                    .addComponent(actualizarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(eliminarPorNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addComponent(lblTitulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addContainerGap(30, Short.MAX_VALUE))
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(actualizarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(eliminarPorNombre1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+            .addGap(28, 176, Short.MAX_VALUE))
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel3)
+            .addGap(99, 99, 99))
     );
     jPanel3Layout.setVerticalGroup(
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -544,26 +544,33 @@ private void limpiar() {
                     .addComponent(jLabel2)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jLabel14)))
-            .addGap(18, 18, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(actualizarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(eliminarPorNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(23, 23, 23))
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(actualizarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(eliminarPorNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+            .addComponent(jLabel3)
+            .addGap(91, 91, 91))
     );
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGroup(layout.createSequentialGroup()
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addContainerGap())
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGroup(layout.createSequentialGroup()
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 0, Short.MAX_VALUE))
     );
 
     pack();
@@ -574,29 +581,28 @@ private void limpiar() {
     }//GEN-LAST:event_txtTipoActionPerformed
 
     private void eliminarPorNombre1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarPorNombre1ActionPerformed
-    
-           int fila = tblClientes1.getSelectedRow();
-    if (fila == -1) {
-        JOptionPane.showMessageDialog(this, "Selecciona un cliente de la tabla");
-        return;
-    }
-    String nombre = modeloTabla.getValueAt(fila, 0).toString();
-    
-    int seguro = JOptionPane.showConfirmDialog(this,
-        "¿Seguro que quieres eliminar a \"" + nombre + "\"?",
-        "Confirmar eliminación",
-        JOptionPane.YES_NO_OPTION);
-    
-    if (seguro == JOptionPane.YES_OPTION) {
+        int fila = tblClientes1.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un cliente de la tabla");
+            return;
+        }
+        Cliente seleccionado = clientes.get(tblClientes1.convertRowIndexToModel(fila));
+        String edad = seleccionado.getEdad() != null ? seleccionado.getEdad() + " años" : "sin edad";
+        String detalle = seleccionado.getNombre() + "  ·  " + edad + "  ·  "
+                + seleccionado.getTipoCliente().getNombre();
+
+        // La confirmación ahora es el panel de eliminar (reemplaza el mensaje anterior)
+        if (!PanelMensajeEliminar.confirmar(tblClientes1, "al cliente", detalle)) {
+            return;
+        }
+
         try {
-           dao.eliminar(clientes.get(tblClientes1.convertRowIndexToModel(fila)).getId());
+            dao.eliminar(seleccionado.getId());
             JOptionPane.showMessageDialog(this, "Cliente eliminado ✅");
             cargarClientes();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
-    }
-    
     }//GEN-LAST:event_eliminarPorNombre1ActionPerformed
 
     private void actualizarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarNombreActionPerformed
@@ -674,6 +680,7 @@ private void limpiar() {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuItem jMenuItem1;
