@@ -34,6 +34,12 @@ public class VentaDAO {
         try {
             em.getTransaction().begin();
             for (Venta linea : ventas) {
+                if (CierreCajaDAO.estaCerrada(em, linea.getFecha().toLocalDate())) {
+                    throw new IllegalArgumentException(
+                        "La caja de hoy ya fue cerrada. No se pueden registrar más ventas.");
+                }
+            }
+            for (Venta linea : ventas) {
                 Venta venta = new Venta();
                 venta.setCliente(linea.getCliente());
                 venta.setProducto(linea.getProducto());
@@ -90,6 +96,10 @@ public class VentaDAO {
             for (Integer id : idsLineas) {
                 Venta v = em.find(Venta.class, id);
                 if (v == null) continue;
+                if (CierreCajaDAO.estaCerrada(em, v.getFecha().toLocalDate())) {
+                    throw new IllegalArgumentException(
+                        "No se pueden eliminar ventas de un día con la caja cerrada.");
+                }
                 if (devolverStock) {
                     Producto p = em.find(Producto.class, v.getProducto().getId(), LockModeType.PESSIMISTIC_WRITE);
                     if (p != null) {

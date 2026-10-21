@@ -167,6 +167,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
         String tipo = listaClientes.get(indiceCliente).getTipoCliente().getNombre();
         porcentaje = obtenerPorcentajeDescuento(tipo, subtotal);
     }
+        
     porcentajeActual = porcentaje;
     BigDecimal descuento = subtotal.multiply(BigDecimal.valueOf(porcentaje))
             .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
