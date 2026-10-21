@@ -1,4 +1,4 @@
-    package com.jennifer_y_madeline.proyecto.databases;
+package com.jennifer_y_madeline.proyecto.databases;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -29,6 +29,12 @@ public class Venta {
     @ManyToOne(optional = false) @JoinColumn(name = "metodo_pago_id", nullable = false)
     private MetodoPago metodoPago;
 
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal descuento = BigDecimal.ZERO;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal recargo = BigDecimal.ZERO;
+
     public Venta() { }
     public Integer getId() { return id; }
     public Cliente getCliente() { return cliente; }
@@ -43,4 +49,8 @@ public class Venta {
     public void setFecha(LocalDateTime fecha) { this.fecha = fecha; }
     public MetodoPago getMetodoPago() { return metodoPago; }
     public void setMetodoPago(MetodoPago metodoPago) { this.metodoPago = metodoPago; }
+    public BigDecimal getDescuento() { return descuento; }
+    public void setDescuento(BigDecimal descuento) { this.descuento = descuento; }
+    public BigDecimal getRecargo() { return recargo; }
+    public void setRecargo(BigDecimal recargo) { this.recargo = recargo; }
 }

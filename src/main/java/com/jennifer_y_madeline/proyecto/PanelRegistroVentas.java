@@ -844,6 +844,8 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
             venta.setMetodoPago(pago);
             venta.setFecha(fecha);
         }
+        detalle.get(0).setDescuento(descuentoActual);
+        detalle.get(0).setRecargo(recargoActual);
         try {
             ventaDAO.guardar(detalle);
         } catch (Exception ex) {

@@ -47,6 +47,8 @@ public class VentaDAO {
                 venta.setPrecioUnitario(linea.getPrecioUnitario());
                 venta.setMetodoPago(linea.getMetodoPago());
                 venta.setFecha(linea.getFecha());
+                venta.setDescuento(linea.getDescuento());
+                venta.setRecargo(linea.getRecargo());
                 if (venta.getCantidad() == null || venta.getCantidad() <= 0
                         || venta.getPrecioUnitario() == null || venta.getPrecioUnitario().signum() < 0) {
                     throw new IllegalArgumentException("Cantidad o precio inv\u00e1lido.");
