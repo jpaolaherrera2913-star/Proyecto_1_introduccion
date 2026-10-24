@@ -40,7 +40,7 @@ public class Proyecto {
 }
 
     static boolean iniciarSesion() {
-        final String usuarioCorrecto = "admin";
+        final String usuarioCorrecto = "Patitas";
         final String claveCorrecta = "1234";
         
         final int MAX_INTENTOS = 3;
