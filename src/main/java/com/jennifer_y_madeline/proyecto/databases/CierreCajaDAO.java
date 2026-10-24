@@ -53,6 +53,25 @@ public class CierreCajaDAO {
         return buscar(fecha);
     }
 
+    /** Reabre la caja de ese día: borra su registro de cierre para poder volver a vender. */
+    public void reabrir(LocalDate fecha) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.createNativeQuery("DELETE FROM cierre_caja WHERE fecha = ?1")
+              .setParameter(1, java.sql.Date.valueOf(fecha))
+              .executeUpdate();
+            em.getTransaction().commit();
+        } catch (RuntimeException e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new IllegalArgumentException(mensaje(e), e);
+        } finally {
+            em.close();
+        }
+    }
+
     /** Devuelve el resumen del cierre de esa fecha, o null si no existe. */
     public Cierre buscar(LocalDate fecha) {
         EntityManager em = JPAUtil.getEntityManager();

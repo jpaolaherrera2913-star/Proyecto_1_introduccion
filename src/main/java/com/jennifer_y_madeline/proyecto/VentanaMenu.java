@@ -1,4 +1,3 @@
-
 package com.jennifer_y_madeline.proyecto;
 /**
  *
@@ -14,7 +13,7 @@ public class VentanaMenu extends javax.swing.JFrame {
     public int opcion = 0;
 
   
-    private static final java.awt.Dimension AREA_IDEAL = new java.awt.Dimension(900, 670);
+    private static final java.awt.Dimension AREA_IDEAL = new java.awt.Dimension(1020, 800);
     private java.awt.Dimension areaPaneles = new java.awt.Dimension(AREA_IDEAL);
     private static final java.awt.Color FONDO_PANEL = new java.awt.Color(255, 251, 250);
     private int anchoMenu;
@@ -29,6 +28,7 @@ public VentanaMenu() {
         setResizable(false);              
         pack();
         setLocationRelativeTo(null);
+        mantenerEnPantalla();
         contenedor.setLayout(new java.awt.BorderLayout());
         
      
@@ -62,6 +62,8 @@ public VentanaMenu() {
                 ? new java.awt.Dimension(areaPaneles.width + anchoMenu, areaPaneles.height)
                 : areaPaneles);
         if (panel instanceof PanelRegistroVentas || panel instanceof PanelEliminarVenta
+                || panel instanceof PanelConsultaVentas || panel instanceof PanelConsultarEstadisticas
+                || panel instanceof PanelCierreCaja
                 || panel.getClass() == javax.swing.JPanel.class) {
             panel.setBackground(FONDO_PANEL);
         }
@@ -75,13 +77,34 @@ public VentanaMenu() {
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         scroll.getHorizontalScrollBar().setUnitIncrement(16);
         contenedor.add(scroll, java.awt.BorderLayout.CENTER);
+        if (panel instanceof PanelConsultaVentas || panel instanceof PanelConsultarEstadisticas
+                || panel instanceof PanelCierreCaja) {
+            contenedor.add(crearPie(), java.awt.BorderLayout.SOUTH);
+        }
         contenedor.revalidate();
         contenedor.repaint();
 
         if (cambioMenu) {     
             pack();
             setLocationRelativeTo(null);
+            mantenerEnPantalla();
         }
+    }
+
+    private javax.swing.JPanel crearPie() {
+        javax.swing.JLabel lblMascotas = new javax.swing.JLabel();
+        Imagenes.ponerPerroYGato(lblMascotas, 100);
+        javax.swing.JPanel pie = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 28, 4));
+        pie.setBackground(FONDO_PANEL);
+        pie.add(lblMascotas);
+        return pie;
+    }
+
+    private void mantenerEnPantalla() {
+        java.awt.Rectangle util = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        int x = Math.max(util.x, Math.min(getX(), util.x + util.width - getWidth()));
+        int y = Math.max(util.y, Math.min(getY(), util.y + util.height - getHeight()));
+        setLocation(x, y);
     }
 
     public void irAInicio() {
@@ -103,6 +126,16 @@ public VentanaMenu() {
     public void irAEliminarVenta() {
         marcarComoActivo(btnVentas);
         mostrarPanel(new PanelEliminarVenta());
+    }
+
+    public void irAEstadisticas() {
+        marcarComoActivo(btnEstadisticas);
+        mostrarPanel(new PanelConsultarEstadisticas());
+    }
+
+    public void irACierre() {
+        marcarComoActivo(btnCierre);
+        mostrarPanel(new PanelCierreCaja());
     }
         private static final java.awt.Color MENU_FONDO = new java.awt.Color(55, 38, 88);
     private static final java.awt.Color MENU_HOVER = new java.awt.Color(116, 96, 153);
@@ -323,18 +356,18 @@ private void configurarBotonMenu(final javax.swing.JButton btn) {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticasActionPerformed
-         marcarComoActivo(btnEstadisticas);
-        mostrarPanel(new PanelEnDesarrollo("Estadisticas"));
+        marcarComoActivo(btnEstadisticas);
+        mostrarPanel(new PanelConsultarEstadisticas());
     }//GEN-LAST:event_btnEstadisticasActionPerformed
 
     private void btnCierreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCierreActionPerformed
         marcarComoActivo(btnCierre);
-        mostrarPanel(new PanelEnDesarrollo("Cierre de caja"));
+        mostrarPanel(new PanelCierreCaja());
     }//GEN-LAST:event_btnCierreActionPerformed
 
     private void btnConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultasActionPerformed
-      marcarComoActivo(btnConsultas);
-        mostrarPanel(new PanelEnDesarrollo("Consultar Ventas"));
+    marcarComoActivo(btnConsultas);
+    mostrarPanel(new PanelConsultaVentas());
     }//GEN-LAST:event_btnConsultasActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

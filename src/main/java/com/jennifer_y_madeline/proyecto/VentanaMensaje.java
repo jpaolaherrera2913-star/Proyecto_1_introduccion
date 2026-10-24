@@ -24,10 +24,6 @@ public VentanaMensaje(String mensaje, boolean conCancelar) {
             + mensaje.replace("\n", "<br>") + "</div></html>");
     btnCancelar.setVisible(conCancelar);
 }
-
-
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

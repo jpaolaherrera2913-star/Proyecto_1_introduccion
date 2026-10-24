@@ -77,15 +77,37 @@ public class VentaDAO {
         try {
             List<Venta> lineas = em.createQuery(
                     "SELECT v FROM Venta v ORDER BY v.fecha DESC, v.id ASC", Venta.class).getResultList();
-            Map<String, VentaResumen> grupos = new LinkedHashMap<>();
-            for (Venta v : lineas) {
-                String clave = v.getCliente().getId() + "|" + v.getFecha() + "|" + v.getMetodoPago().getId();
-                grupos.computeIfAbsent(clave, k -> new VentaResumen()).agregar(v);
-            }
-            return new ArrayList<>(grupos.values());
+            return agrupar(lineas);
         } finally {
             em.close();
         }
+    }
+
+    /** Ventas (ya agrupadas por compra) de un solo día; las usa el Panel Principal. */
+    public List<VentaResumen> listarResumenesDelDia(java.time.LocalDate dia) {
+        java.time.LocalDateTime inicio = dia.atStartOfDay();
+        java.time.LocalDateTime fin = inicio.plusDays(1);
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            List<Venta> lineas = em.createQuery(
+                    "SELECT v FROM Venta v WHERE v.fecha >= :inicio AND v.fecha < :fin "
+                  + "ORDER BY v.fecha DESC, v.id ASC", Venta.class)
+                    .setParameter("inicio", inicio)
+                    .setParameter("fin", fin)
+                    .getResultList();
+            return agrupar(lineas);
+        } finally {
+            em.close();
+        }
+    }
+
+    private List<VentaResumen> agrupar(List<Venta> lineas) {
+        Map<String, VentaResumen> grupos = new LinkedHashMap<>();
+        for (Venta v : lineas) {
+            String clave = v.getCliente().getId() + "|" + v.getFecha() + "|" + v.getMetodoPago().getId();
+            grupos.computeIfAbsent(clave, k -> new VentaResumen()).agregar(v);
+        }
+        return new ArrayList<>(grupos.values());
     }
 
     public void eliminarVenta(List<Integer> idsLineas, boolean devolverStock) {

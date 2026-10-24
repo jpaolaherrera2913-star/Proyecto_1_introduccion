@@ -34,7 +34,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
 
     public PanelRegistroVentas() {
         initComponents();
-        Imagenes.ponerPerroYGato(jLabel4, 90);
+        Imagenes.ponerPerroYGato(jLabel4, 100);
         inicializarLogicaVentas();
     }
 
@@ -376,11 +376,9 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
         lblTitulo7.setText("  💳");
 
         lblTitulo8.setBackground(new java.awt.Color(0, 0, 0));
-        lblTitulo8.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.BOLD, 10)
-
-        );
+        lblTitulo8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblTitulo8.setForeground(new java.awt.Color(79, 57, 122));
-        lblTitulo8.setText("  💲");
+        lblTitulo8.setText("  Q");
 
         jLabel2.setForeground(new java.awt.Color(183, 169, 209));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -426,7 +424,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
         cardFormularioLayout.setHorizontalGroup(
             cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cardFormularioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(cardFormularioLayout.createSequentialGroup()
                         .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -451,19 +449,18 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                                         .addComponent(jLabel12)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(cardFormularioLayout.createSequentialGroup()
-                                    .addComponent(lblTitulo9, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(5, 5, 5)
-                                    .addComponent(jLabel27)
-                                    .addGap(4, 4, 4)
-                                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(txtPrecio1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtCantidad)
+                                    .addComponent(cboCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtFecha)))
+                            .addGroup(cardFormularioLayout.createSequentialGroup()
+                                .addComponent(lblTitulo9, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)
+                                .addComponent(jLabel27)
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPrecio1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(cardFormularioLayout.createSequentialGroup()
                                 .addComponent(lblTitulo7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -483,9 +480,9 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                                 .addComponent(jLabel21)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtProducto, 0, 190, Short.MAX_VALUE)
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                            .addComponent(cboPago, 0, 190, Short.MAX_VALUE)
+                            .addComponent(txtProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtPrecio)
+                            .addComponent(cboPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardFormularioLayout.createSequentialGroup()
@@ -509,7 +506,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                 .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, 120)
                 .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(jLabel22)
@@ -521,7 +518,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                 .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPrecio1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, 120)
                 .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(cardFormularioLayout.createSequentialGroup()
                         .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -537,7 +534,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                             .addComponent(lblTitulo4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, 120)
                 .addGroup(cardFormularioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(jLabel17)
@@ -563,6 +560,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
 
         );
         jTextField1.setForeground(new java.awt.Color(79, 57, 122));
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jTextField1.setText("📝  Resumen de venta");
         jTextField1.setToolTipText("");
         jTextField1.setBorder(null);
@@ -633,7 +631,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                             .addComponent(jLabel26)
                             .addGap(18, 18, 18)
                             .addComponent(lblDescuentoMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 24, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -661,18 +659,18 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
             .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(cardResumenLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(cardResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(cardResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tblResumen, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
         cardResumenLayout.setVerticalGroup(
             cardResumenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cardResumenLayout.createSequentialGroup()
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tblResumen, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(tblResumen, javax.swing.GroupLayout.PREFERRED_SIZE, 176, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -698,7 +696,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cardFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cardFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblTitulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -706,13 +704,13 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cardResumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cardResumen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegistrarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(12, 12, 12))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
@@ -726,7 +724,7 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblTitulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cardFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cardFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -735,24 +733,21 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
                                 .addComponent(jLabel14))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(13, 13, 13)
-                                .addComponent(cardResumen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cardResumen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(7, 7, 7)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnRegistrarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addGap(6, 6, 6)
                 .addComponent(jLabel4)
-                .addGap(27, 27, 27))
+                .addGap(8, 8, 8))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -766,7 +761,25 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecioActionPerformed
 
+    private boolean avisarSiCajaCerrada() {
+        boolean cerrada;
+        try {
+            cerrada = new CierreCajaDAO().estaCerrada(java.time.LocalDate.now());
+        } catch (RuntimeException ex) {
+            return false;
+        }
+        if (cerrada) {
+            JOptionPane.showMessageDialog(this,
+                    "La caja de hoy ya fue cerrada. No se pueden registrar más ventas.",
+                    "Caja cerrada", JOptionPane.WARNING_MESSAGE);
+        }
+        return cerrada;
+    }
+
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
+        if (avisarSiCajaCerrada()) {
+            return;
+        }
         int indice = txtProducto.getSelectedIndex();
         if (indice < 0 || indice >= productos.size()) return;
         try {
@@ -806,6 +819,9 @@ public class PanelRegistroVentas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
     private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
+        if (avisarSiCajaCerrada()) {
+            return;
+        }
         int indice = cboCliente.getSelectedIndex();
         MetodoPago pago = (MetodoPago) cboPago.getSelectedItem();
         if (pago == null || listaClientes == null || indice < 0 || productos.isEmpty()) {
